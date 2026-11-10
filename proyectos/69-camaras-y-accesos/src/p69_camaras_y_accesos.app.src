@@ -1,8 +1,17 @@
 {application, p69_camaras_y_accesos, [
-  {description, "Camaras y accesos"},
+  {description, "Camaras y accesos: bitacora de eventos y busqueda por rango"},
   {vsn, "0.1.0"},
-  {registered, [p69_camaras_y_accesos_sup, p69_camaras_y_accesos_server]},
+  {registered, [
+    p69_camaras_y_accesos_sup,
+    p69_camaras_y_accesos_server,
+    p69_metricas,
+    p69_bitacora,
+    p69_sitios_sup,
+    p69_sitios,
+    p69_consultas_sup,
+    p69_retencion
+  ]},
   {mod, {p69_camaras_y_accesos_app, []}},
-  {applications, [kernel, stdlib, cowboy, recon]},
+  {applications, [kernel, stdlib, crypto, cowboy, recon]},
   {env, []}
 ]}.

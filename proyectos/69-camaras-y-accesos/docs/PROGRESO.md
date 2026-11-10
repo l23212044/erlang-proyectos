@@ -5,7 +5,8 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 ## Estado general
 
 - Fase 1 (Entorno): **completada** (toolchain local; ver nota).
-- Fases 2 a 7: pendientes.
+- Fase 2 (Nucleo OTP): **completada** (`rebar3 compile` OK, `rebar3 eunit` 41 pruebas, 0 fallos).
+- Fases 3 a 7: pendientes.
 
 ## Entorno verificado
 
@@ -31,6 +32,28 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - Cookie de Erlang generada aleatoriamente (no queda `cambiar_en_produccion`).
 - Uso del modulo estandar `json` de OTP 27 (menos dependencias).
 
+## Modulos del nucleo OTP (Fase 2)
+
+- `p69_config`: lectura centralizada de `sys.config`.
+- `p69_evento`: logica pura (normalizacion, timestamps, hash canonico, mediana).
+- `p69_reloj`: estimacion de offset por mediana (pura).
+- `p69_wal`: WAL append-only con registros enmarcados y sync antes del ACK.
+- `p69_almacen`: tablas ETS por segmento (ordered_set) + indices por edificio y dispositivo.
+- `p69_cadena`: verificacion pura de la cadena de eventos y de checkpoints.
+- `p69_bitacora`: gen_server dueno de ETS/WAL; ingesta, consultas con pines, retencion y recuperacion.
+- `p69_dispositivo`, `p69_sitio_sup`, `p69_sitios_sup`, `p69_sitios`: estado por dispositivo y supervision por edificio.
+- `p69_consultas_sup`, `p69_consulta`: consultas efimeras que no bloquean la ingesta.
+- `p69_retencion`: borrado periodico de segmentos vencidos.
+- `p69_metricas`: contadores ETS para `/metrics` (Fase 3).
+
+## Decisiones de los casos dificiles
+
+- Evento tardio: se inserta en el `ordered_set` por `{ts_corregido, seq}`; la cadena de hashes sigue el orden de llegada (`seq`). La verificacion recorre el libro de hashes por `seq`.
+- Reloj desfasado: offset por mediana de `ts_recepcion - ts_evento`; se guardan `ts_evento` y `ts_corregido`; se marca `desfasado`.
+- Retencion: pin por consulta; la bitacora omite segmentos en uso y registra un checkpoint en una cadena propia de checkpoints.
+- Reinicio: al iniciar se relee el WAL, se reconstruyen segmentos/ETS y se aplican los checkpoints de retencion.
+- Verificacion tras borrado: el libro de hashes (`seq -> hash/hash_prev`) se conserva; los eventos presentes se recalculan y los eliminados conservan el eslabon.
+
 ## Pendientes reales
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
@@ -47,3 +70,14 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - `scripts/setup.sh` creado (idempotente).
 - `config/vm.args` ajustado a 20 nucleos y cookie aleatoria.
 - `config/sys.config` con parametros base (puerto, datos, retencion, umbrales de ingesta).
+
+### Fase 2 — Nucleo OTP
+
+- Modulos nuevos listados arriba; supervision raiz `rest_for_one` (bitacora aislada y duena de ETS/WAL).
+- `rebar3 compile`: OK sin warnings (`warnings_as_errors`).
+- `rebar3 eunit`: **41 tests, 0 fallos**.
+- Pruebas cubren: busqueda por rango, evento tardio, filtros/indices, correccion de reloj,
+  cadena de hashes y deteccion de alteracion, checkpoints, retencion con consulta en curso,
+  recuperacion desde WAL y arbol de supervision.
+- Limitacion documentada: el WAL crece sin truncarse; el libro de hashes conserva una entrada
+  por evento para poder verificar tras la retencion.

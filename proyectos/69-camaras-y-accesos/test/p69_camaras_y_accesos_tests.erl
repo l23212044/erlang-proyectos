@@ -3,12 +3,20 @@
 
 arbol_de_supervision_test_() ->
   {setup,
-   fun() -> {ok, Pid} = p69_camaras_y_accesos_sup:start_link(), Pid end,
-   fun(Pid) ->
-     unlink(Pid),
-     exit(Pid, shutdown)
+   fun() ->
+     Dir = p69_test_util:dir(),
+     p69_test_util:config(datos_dir, Dir),
+     p69_test_util:config(retencion_dias, 0),
+     {ok, Pid} = p69_camaras_y_accesos_sup:start_link(),
+     #{dir => Dir, pid => Pid}
    end,
-   fun(_) ->
+   fun(#{dir := Dir, pid := Pid}) ->
+     unlink(Pid),
+     exit(Pid, shutdown),
+     p69_test_util:limpiar(Dir)
+   end,
+   fun(_Ctx) ->
      [?_assertEqual(pong, p69_camaras_y_accesos_server:ping()),
-      ?_assert(is_map(p69_camaras_y_accesos_server:state()))]
+      ?_assert(is_map(p69_camaras_y_accesos_server:state())),
+      ?_assert(is_map(p69_bitacora:estado()))]
    end}.
