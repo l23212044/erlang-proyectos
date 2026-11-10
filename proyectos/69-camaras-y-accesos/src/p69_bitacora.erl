@@ -463,7 +463,8 @@ bajar_segmento_ahora(SegId, Estado) ->
           ok = p69_almacen:borrar(Almacen),
           Segmentos2 = maps:remove(SegId, Estado#estado.segmentos),
           Pines2 = maps:remove(SegId, Estado#estado.pin_counts),
-          metricas(inc, [retencion_segmentos, {retencion_eventos, Count}]),
+          metricas(inc, [retencion_segmentos]),
+          metricas(inc, [{retencion_eventos, Count}]),
           logger:info("segmento eliminado por retencion", #{
             segmento => SegId, eventos => Count
           }),

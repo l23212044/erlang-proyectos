@@ -78,4 +78,7 @@ init([]) ->
       type => worker
     }
   ],
-  {ok, {#{strategy => rest_for_one, intensity => 10, period => 60}, Children}}.
+  %% Un fallo de la bitacora reinicia en cadena a sus dependientes (8 hijos),
+  %% por eso el margen debe tolerar ese evento y las pruebas de caos sin
+  %% apagar toda la aplicacion. Sigue siendo un limite acotado por minuto.
+  {ok, {#{strategy => rest_for_one, intensity => 30, period => 60}, Children}}.

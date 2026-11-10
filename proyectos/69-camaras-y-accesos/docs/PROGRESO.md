@@ -7,7 +7,8 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 - Fase 1 (Entorno): **completada** (toolchain local; ver nota).
 - Fase 2 (Nucleo OTP): **completada** (`rebar3 compile` OK, `rebar3 eunit` 41 pruebas, 0 fallos).
 - Fase 3 (API REST, WebSocket, metricas y estaticos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 45 pruebas, 0 fallos; humo real de API y WS).
-- Fases 4 a 7: pendientes.
+- Fase 4 (Simulador y caos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 49 pruebas, 0 fallos; caos real con 1,000,000 de eventos y resultados en `docs/CAOS.md`).
+- Fases 5 a 7: pendientes (Fase 5 espera el export de Stitch).
 
 ## Entorno verificado
 
@@ -50,6 +51,10 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
   `p69_api_verificar`, `p69_api_salud`, `p69_api_metrics`: handlers REST (Fase 3).
 - `p69_http`: listener cowboy y tabla de rutas (incluye estaticos de `priv/www`).
 - `p69_ws` y `p69_eventos_pub`: WebSocket `/ws/eventos` y pub/sub de eventos (Fase 3).
+- `p69_simulador`: escenario de 100 puertas + 200 camaras, historico, picos,
+  reloj de 4 min, eventos tardios y dispositivos offline (Fase 4).
+- `p69_caos`: prueba reproducible de carga, consulta concurrente y muertes de
+  procesos, con mediciones reales (Fase 4).
 
 ## Decisiones de los casos dificiles
 
@@ -64,6 +69,7 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
 - Esperar el export de Google Stitch en `design/` (Fase 5); el prompt ya esta mejorado con campos reales de la API.
+- Integrar la UI, release/systemd y material de demo (Fases 6 y 7).
 - Simulador, caos, UI, release/systemd, manual (Fases 4 a 7).
 
 ## Registro de fases
@@ -109,3 +115,28 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - Prueba de reconocimiento: un evento con `ts_evento` antiguo pero
   `ts_recepcion` actual se marca `desfasado` y se corrige con el offset estimado; para
   cargas historicas hay que enviar `ts_recepcion` dentro de la retencion.
+
+### Fase 4 - Simulador y caos
+
+- `p69_simulador`: 300 dispositivos (100 puertas, 200 camaras), tasas y picos
+  configurables, datos historicos, un dispositivo con reloj 4 minutos atrasado,
+  eventos tardios y dispositivos que pasan a `offline`/`online`.
+- `scripts/simular.sh`: CLI para `historico`, `carga` o `completo`; arranca la
+  aplicacion con puerto efimero y detiene el nodo al terminar.
+- `p69_caos` + `scripts/caos.sh`: carga 1,000,000 de eventos, consulta mientras
+  sigue la ingesta, mata dispositivo, sitio, retencion, consulta y bitacora, y
+  prueba retencion con un pin activo. Resultados medidos en `docs/CAOS.md`.
+- Correcciones encontradas por el caos:
+  - `p69_sitios` cacheaba el pid de un sitio muerto y perdia eventos; ahora
+    comprueba `is_process_alive` y vuelve a pedir el sitio.
+  - `p69_bitacora` llamaba a `p69_metricas:inc/2` con dos claves; ahora son dos
+    incrementos separados.
+  - Supervisor raiz con `intensity => 30` por minuto: un fallo de la bitacora
+    reinicia 8 hijos en cadena y las pruebas de caos suman varios reinicios.
+- `rebar3 compile`: OK sin warnings.
+- `rebar3 eunit`: **49 tests, 0 fallos**, incluida la recuperacion de un sitio
+  muerto y el simulador en vivo.
+- Caos completo (1M base + 300k durante consultas): carga 12,144 ms (~82k ev/s),
+  10 consultas durante la ingesta con 353 ms promedio vs 314 ms en reposo,
+  recuperacion de bitacora 11,619 ms sin perder `seq` y verificacion 4,854 ms.
+- Limitacion: el WAL no se trunca; el arranque con millones de eventos es lineal.

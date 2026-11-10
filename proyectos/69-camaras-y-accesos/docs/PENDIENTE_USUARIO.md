@@ -23,6 +23,14 @@ Todo lo que requiere intervencion manual del usuario. Se actualiza al final de c
 - [ ] Opcional: probar `http://localhost:8080/` desde el navegador de Windows con
       el proyecto arrancado para confirmar el acceso.
 
+Mientras esperas el diseno, puedes probar el simulador y el caos:
+
+- [ ] `scripts/simular.sh --modo completo --duracion 60` (arranca la app con
+      puerto efimero y carga ~1.08M de eventos historicos; tarda unos segundos).
+- [ ] `scripts/caos.sh --eventos 1000000` y revisar la tabla de `docs/CAOS.md`.
+- [ ] Detener el servicio/release antes de simular si usa la misma carpeta `data/`
+      para no abrir el mismo WAL desde dos nodos.
+
 No hace falta que hagas nada mas para que el agente continue: al recibir el export
 en `design/` se integrara en Fase 5.
 

@@ -30,20 +30,26 @@ init([]) ->
   {ok, #{sitios => #{}, dispositivos => #{}}}.
 
 handle_call(dispositivos, _From, Estado) ->
-  Lista = [
-    Dispositivo
-   || Edificio <- maps:keys(maps:get(sitios, Estado)),
-      Dispositivo <- dispositivos_de_sitio(Edificio, Estado)
-  ],
+  Lista = lists:append([
+    dispositivos_de_sitio(SitePid)
+   || {_Edificio, SitePid} <- maps:to_list(maps:get(sitios, Estado)),
+      is_process_alive(SitePid)
+  ]),
   {reply, Lista, Estado};
 handle_call({dispositivo, Edificio, DispId}, _From, Estado) ->
   case maps:find(Edificio, maps:get(sitios, Estado)) of
     error ->
       {reply, {error, no_encontrado}, Estado};
     {ok, SitePid} ->
-      case buscar_hijo(SitePid, DispId) of
-        {ok, Pid} -> {reply, {ok, p69_dispositivo:estado(Pid)}, Estado};
-        error -> {reply, {error, no_encontrado}, Estado}
+      case is_process_alive(SitePid) of
+        false ->
+          Sitios2 = maps:remove(Edificio, maps:get(sitios, Estado)),
+          {reply, {error, no_encontrado}, Estado#{sitios => Sitios2}};
+        true ->
+          case buscar_hijo(SitePid, DispId) of
+            {ok, Pid} -> {reply, {ok, p69_dispositivo:estado(Pid)}, Estado};
+            error -> {reply, {error, no_encontrado}, Estado}
+          end
       end
   end;
 handle_call(sitios, _From, Estado) ->
@@ -108,17 +114,26 @@ asegurar_sitio(Edificio, Estado) ->
   Sitios = maps:get(sitios, Estado),
   case maps:find(Edificio, Sitios) of
     {ok, Pid} ->
-      {Pid, Estado};
+      %% La cache puede apuntar a un sitio que murio y ya fue reiniciado por
+      %% p69_sitios_sup. Si no se comprueba, los eventos de ese edificio se
+      %% pierden silenciosamente.
+      case is_process_alive(Pid) of
+        true -> {Pid, Estado};
+        false -> iniciar_sitio(Edificio, maps:remove(Edificio, Sitios), Estado)
+      end;
     error ->
-      case p69_sitios_sup:iniciar_sitio(Edificio) of
-        {ok, Pid} ->
-          {Pid, Estado#{sitios => maps:put(Edificio, Pid, Sitios)}};
-        {error, {already_started, Pid}} ->
-          {Pid, Estado#{sitios => maps:put(Edificio, Pid, Sitios)}};
-        {error, Motivo} ->
-          logger:warning("no se pudo iniciar sitio ~p: ~p", [Edificio, Motivo]),
-          {undefined, Estado}
-      end
+      iniciar_sitio(Edificio, Sitios, Estado)
+  end.
+
+iniciar_sitio(Edificio, Sitios, Estado) ->
+  case p69_sitios_sup:iniciar_sitio(Edificio) of
+    {ok, Pid} ->
+      {Pid, Estado#{sitios => maps:put(Edificio, Pid, Sitios)}};
+    {error, {already_started, Pid}} ->
+      {Pid, Estado#{sitios => maps:put(Edificio, Pid, Sitios)}};
+    {error, Motivo} ->
+      logger:warning("no se pudo iniciar sitio ~p: ~p", [Edificio, Motivo]),
+      {undefined, Estado}
   end.
 
 guardar_dispositivo(Edificio, DispId, Pid, Estado) ->
@@ -130,13 +145,9 @@ buscar_hijo(SitePid, DispId) ->
     _ -> error
   end.
 
-dispositivos_de_sitio(Edificio, Estado) ->
-  case maps:find(Edificio, maps:get(sitios, Estado)) of
-    error -> [];
-    {ok, SitePid} ->
-      [
-        p69_dispositivo:estado(Pid)
-       || {_Id, Pid, _Tipo, _Modulos} <- supervisor:which_children(SitePid),
-          is_pid(Pid)
-      ]
-  end.
+dispositivos_de_sitio(SitePid) ->
+  [
+    p69_dispositivo:estado(Pid)
+   || {_Id, Pid, _Tipo, _Modulos} <- supervisor:which_children(SitePid),
+      is_pid(Pid)
+  ].
