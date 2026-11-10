@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#a9bad3", "surface-container-high": "#23293c", "tertiary-container": "#00b17b", "inverse-primary": "#006591", "on-tertiary-container": "#003b26", "on-primary-fixed": "#001e2f", "on-secondary-fixed": "#0b1c30", "background": "#0c1324", "surface": "#0c1324", "outline-variant": "#3e4850", "surface-container-highest": "#2e3447", "inverse-surface": "#dce1fb", "secondary-fixed-dim": "#b7c8e1", "on-primary-container": "#003751", "secondary": "#b7c8e1", "tertiary": "#4edea3", "on-primary": "#00344d", "surface-bright": "#33394c", "on-tertiary-fixed-variant": "#005236", "primary-fixed": "#c9e6ff", "on-background": "#dce1fb", "surface-container-low": "#151b2d", "surface-variant": "#2e3447", "on-surface-variant": "#bec8d2", "on-error-container": "#ffdad6", "surface-dim": "#0c1324", "surface-container-lowest": "#070d1f", "error-container": "#93000a", "error": "#ffb4ab", "tertiary-fixed": "#6ffbbe", "secondary-container": "#3a4a5f", "on-error": "#690005", "outline": "#88929b", "primary-container": "#0ea5e9", "tertiary-fixed-dim": "#4edea3", "on-surface": "#dce1fb", "on-secondary-fixed-variant": "#38485d", "on-primary-fixed-variant": "#004c6e", "on-tertiary": "#003824", "surface-container": "#191f31", "on-tertiary-fixed": "#002113", "on-secondary": "#213145", "secondary-fixed": "#d3e4fe", "primary": "#89ceff", "inverse-on-surface": "#2a3043", "surface-tint": "#89ceff", "primary-fixed-dim": "#89ceff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "0.75rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-md": "0.75rem", "space-lg": "1rem", "space-xl": "1.5rem" }, "fontFamily": { "mono-timestamp": ["JetBrains Mono"], "stat-lg": ["JetBrains Mono"], "headline-lg": ["Inter"], "display-lg": ["Inter"], "mono-code": ["JetBrains Mono"], "body-sm": ["Inter"], "stat-md": ["JetBrains Mono"], "body-md": ["Inter"], "body-lg": ["Inter"], "headline-md": ["Inter"], "headline-sm": ["Inter"], "label-caps": ["Inter"] }, "fontSize": { "mono-timestamp": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "400" }], "stat-lg": ["24px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "mono-code": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "stat-md": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "600" }], "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="Logo Sentinel Urbano" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrDIecmrhzSSrAY1_4PHxWwZb6XtiXuxw3hDcdzNssfVNPIqxA5Y7wNKPQxP9Z0XxQfn7scHeCGq-XaNRwC7ppc58uOHCXiyCDoGjpT8Dt2i0ebytB2xLsERGYHvDxk4DaZGrb-Z29JDW2E3JgqG3Jd13mgd7Coxr3wmMYxupnoBzfn-JTPx7TyDKUCndTG7yQgkVaXMtOD-nKOQcMeOVi13CO3pKsdKwOMPspIRzJSbIA"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight truncate">SENTINEL URBANO</span></div><span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">C4 Móvil • Nodo Erlang/OTP #04</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><div class="hidden xs:flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-low"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span></span><span class="font-mono-timestamp text-mono-timestamp text-tertiary">12ms</span></div><button aria-label="Alertas prioritarias" class="relative w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold leading-none">3</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-20 bg-surface"><div class="flex flex-col w-full px-margin pb-space-xl gap-space-lg">
+<!-- Operational Pulse Banner -->
+<section class="flex flex-col gap-space-xs mt-space-sm">
+<div class="flex items-center justify-between bg-surface-container-low px-space-md py-space-sm rounded-lg shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="relative flex h-3 w-3 flex-shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase truncate">Red Metropolitana C4</span>
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold tracking-tight truncate">SISTEMA OPERATIVO 94.2%</span>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-space-xs py-1 rounded">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface font-semibold">OTP OK</span>
+</div>
+</div>
+</section>
+<!-- Metric Health KPIs (High Contrast Tactical Cards) -->
+<section class="grid grid-cols-1 gap-space-sm">
+<!-- OK Status Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-tertiary uppercase font-bold">OK / En Línea</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary bg-surface-container-high px-1.5 py-0.5 rounded">+2 hoy</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-stat-lg text-stat-lg text-on-surface">142</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">dispositivos activos</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">118 Cámaras • 24 Torniquetes</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">chevron_right</span>
+</div>
+<!-- Alert Status Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px] text-primary" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">Alerta Operativa</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-stat-lg text-stat-lg text-primary">04</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">nodos con advertencia</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">Aglomeración • Batería baja • Puerta &gt;90s</span>
+</div>
+</div>
+<button class="h-11 px-space-md bg-secondary-container text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-1.5 transition-colors flex-shrink-0" onclick="alert('Filtrando 4 incidencias de advertencia activa...')" type="button">
+<span class="font-label-caps text-label-caps font-bold">ATENDER</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Failure / Offline Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-12 h-12 rounded-lg bg-error-container flex items-center justify-center flex-shrink-0">
+<span class="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-error opacity-40"></span>
+<span class="material-symbols-outlined text-[26px] text-on-error relative" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps text-error uppercase font-bold">Crítico / Offline</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-error bg-error-container px-1.5 py-0.5 rounded font-bold">FALLA</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-stat-lg text-stat-lg text-error">02</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">nodos desconectados</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-error truncate">Domo Norte 04 (RTSP) • Garita Este (gen_server)</span>
+</div>
+</div>
+<button class="w-11 h-11 bg-error-container text-on-error rounded-lg flex items-center justify-center flex-shrink-0" onclick="alert('Abriendo diagnóstico rápido de fallas críticas...')" type="button">
+<span class="material-symbols-outlined text-[20px]">build</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Segment Filter / Quick Switch Pills -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Nodos Críticos</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">Sincronizado vía OTP ETS</span>
+</div>
+<!-- Scrollable Horizontal Pills -->
+<div class="flex gap-space-xs overflow-x-auto py-1 no-scrollbar -mx-margin px-margin">
+<button class="filter-tab px-space-md h-9 rounded-full bg-primary-container text-on-primary font-body-sm font-semibold whitespace-nowrap flex items-center gap-1 shadow-sm" data-filter="all">
+<span>Todos</span>
+<span class="bg-surface-container-lowest/40 text-on-primary text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold">148</span>
+</button>
+<button class="filter-tab px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="alert">
+<span>En Alerta</span>
+<span class="bg-secondary-container text-primary text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold">4</span>
+</button>
+<button class="filter-tab px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="access">
+<span>Accesos</span>
+<span class="bg-surface-container-lowest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold">24</span>
+</button>
+<button class="filter-tab px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="cams">
+<span>Cámaras</span>
+<span class="bg-surface-container-lowest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold">124</span>
+</button>
+</div>
+</section>
+<!-- Live Feed & Access Control Cards -->
+<section class="flex flex-col gap-space-md">
+<!-- Card 1: Camera Live Feed (OK) -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-sm flex flex-col">
+<!-- 16:9 Video Canvas Simulation -->
+<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Tactical night urban surveillance camera view showing intersection of Juarez and Reforma avenues with illuminated crosswalks, light city traffic, security timestamp digital overlay in green JetBrains Mono, crisp 1080p high definition mobile tactical feed." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbalmGa5S1bVbJR4qgEa1F14uswSRnrHFFO8LOdimVtcHB6yfEC0Ymtfeaq0IconW-cncZMynyhBrWfTYCFx88simZnRFmBGZWkSXghCJ097eWChochO9lwxwoysEixHjeFq9wCztZIZWBWK7tRjrDYXUHLwASty_YIr1nANWSFGSFk346eXyCUsNvJL2BrYFlcHrshvwdLUrlGwNCtA0bz0zCrPJg2Nxdi3Pbxebb"/>
+<!-- Live HUD Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/60 pointer-events-none"></div>
+<!-- Top Overlay: Status Beacon & Telemetry -->
+<div class="absolute top-2 left-2 right-2 flex items-center justify-between">
+<div class="flex items-center gap-1.5 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="font-label-caps text-label-caps text-tertiary font-bold tracking-wider">TRANSMITIENDO</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded text-on-surface font-mono-timestamp text-mono-timestamp">
+<span class="material-symbols-outlined text-[14px] text-primary">nights_stay</span>
+<span>1080p • 30FPS</span>
+</div>
+</div>
+<!-- Bottom Overlay: RTSP Specs -->
+<div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-on-surface font-mono-timestamp text-mono-timestamp">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md px-2 py-0.5 rounded flex items-center gap-1">
+<span class="text-tertiary">4.2 Mbps</span>
+<span class="text-on-surface-variant">|</span>
+<span class="text-tertiary">12ms RTT</span>
+</div>
+<button class="bg-surface-container-high/80 backdrop-blur-md px-2 py-1 rounded text-on-surface flex items-center gap-1 hover:bg-surface-bright" onclick="alert('Abriendo modo pantalla completa CAM-C4-102')">
+<span class="material-symbols-outlined text-[14px]">fullscreen</span>
+<span class="font-label-caps text-label-caps">EXPANDIR</span>
+</button>
+</div>
+</div>
+<!-- Card Metadata Body -->
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Av. Juárez y Reforma</span>
+<span class="bg-surface-container-high text-tertiary font-mono-timestamp text-mono-timestamp px-1.5 py-0.5 rounded font-bold">CAM-102</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Sector Centro Histórico • PTZ Domo Óptico 360°</span>
+</div>
+<button class="w-11 h-11 bg-surface-container-high hover:bg-surface-bright text-on-surface rounded-lg flex items-center justify-center flex-shrink-0" title="Control PTZ">
+<span class="material-symbols-outlined text-[20px]">pan_tool</span>
+</button>
+</div>
+<!-- Quick Telemetry Row -->
+<div class="grid grid-cols-3 gap-space-xs pt-space-xs mt-space-xs bg-surface-container-lowest/40 p-space-xs rounded-lg text-center">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Erlang PID</span>
+<span class="font-mono-timestamp text-mono-timestamp text-primary font-bold">&lt;0.218.0&gt;</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Luz IR</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary font-bold">AUTOMÁTICO</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Buffer ETS</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface font-bold">0.8 MB</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Pedestrian Access Control (ALERTA) -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px] text-primary">sensor_door</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Acceso Peatonal Central</span>
+<span class="font-mono-timestamp text-mono-timestamp bg-surface-container-high text-primary px-1.5 py-0.5 rounded font-bold">TOR-07</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Torniquete #03 • Estación Metro Central</span>
+</div>
+</div>
+<span class="bg-secondary-container text-primary font-mono-timestamp text-mono-timestamp px-2 py-1 rounded font-bold whitespace-nowrap">4 min</span>
+</div>
+<!-- Alert Box -->
+<div class="bg-surface-container-high p-space-sm rounded-lg flex flex-col gap-space-xs">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[18px]">lock_open</span>
+<span class="font-label-caps text-label-caps font-bold uppercase tracking-wider">ALARMA: PUERTA FORZADA / APERTURA SOSTENIDA</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Último registro denegado: <span class="font-mono-code text-mono-code text-on-surface font-bold">Tag RFID #88391</span> sin autorización de turno. Sensor magnético reporta brecha continua (&gt;90s).
+        </p>
+</div>
+<!-- Action Emergency Lockdown Button -->
+<div class="flex gap-space-xs pt-1">
+<button class="h-12 flex-1 bg-primary text-on-primary hover:bg-primary-container font-headline-sm text-headline-sm font-bold rounded-lg flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95" onclick="alert('ENVIANDO SEÑAL DE BLOQUEO FÍSICO INMEDIATO A TOR-07')" type="button">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+<span>BLOQUEAR ACCESO</span>
+</button>
+<button class="w-12 h-12 bg-surface-container-high hover:bg-surface-bright text-on-surface rounded-lg flex items-center justify-center flex-shrink-0" onclick="alert('Enlazando cámara de soporte domo Garita Central...')" title="Ver cámara asociada" type="button">
+<span class="material-symbols-outlined text-[22px]">videocam</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Offline Node Disconnected (FALLA) -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-sm flex flex-col">
+<!-- Offline Static Canvas -->
+<div class="relative w-full aspect-video bg-surface-container-lowest flex flex-col items-center justify-center p-space-md text-center overflow-hidden">
+<!-- SVG Static Noise Simulation -->
+<svg class="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
+<filter id="noiseFilter"><feturbulence basefrequency="0.8" numoctaves="3" stitchtiles="stitch" type="fractalNoise"></feturbulence></filter>
+<rect filter="url(#noiseFilter)" height="100%" width="100%"></rect>
+</svg>
+<div class="relative z-10 flex flex-col items-center gap-space-xs">
+<div class="w-12 h-12 rounded-full bg-error-container text-on-error flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-[28px]">videocam_off</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-error font-bold uppercase tracking-widest bg-surface-container-lowest/80 px-2 py-0.5 rounded">
+            SIN ENLACE RTSP (TIMEOUT 504)
+          </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant max-w-[260px]">
+            Supervisión Erlang <code class="font-mono-code text-mono-code text-error">&lt;0.412.0&gt;</code> en reintento cíclico #3
+          </span>
+</div>
+</div>
+<!-- Node Metadata & Recovery Button -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Cruce Periférico Sur</span>
+<span class="bg-surface-container-high text-error font-mono-timestamp text-mono-timestamp px-1.5 py-0.5 rounded font-bold">CAM-089</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Km 14.2 • Enlace Fibra Troncal Anillo B</span>
+</div>
+<span class="bg-error-container text-on-error font-mono-timestamp text-mono-timestamp px-2 py-1 rounded font-bold">12m caída</span>
+</div>
+<!-- Action Button -->
+<button class="h-12 w-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-lg font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors" onclick="alert('Lanzando OTP gen_server:cast(c4_supervisor, {restart_worker, 89})')" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">restart_alt</span>
+<span>DIAGNOSTICAR &amp; REINICIAR PROCESO</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Live Event Stream Ticker (Bitácora de campo) -->
+<section class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-md shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-primary">dynamic_feed</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Flujo de Bitácora</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+        STREAM ACTIVO
+      </span>
+</div>
+<!-- Timeline Compact Rows -->
+<div class="flex flex-col divide-y-0 gap-space-xs">
+<!-- Event 1 (OK) -->
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-tertiary">key</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Acceso Concedido: Garita 1</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase">OK</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">Badge #4492 Oficial M. Vargas</span>
+</div>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant flex-shrink-0">14:32:05</span>
+</div>
+<!-- Event 2 (Alert / LPR) -->
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary">directions_car</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">LPR: Coincidencia de Placa</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">ALERTA</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">Placa: NXZ-881 • Reporte de robo C5</span>
+</div>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant flex-shrink-0">14:31:40</span>
+</div>
+<!-- Event 3 (Offline / Critical) -->
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-on-error">link_off</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-body-md text-body-md text-error font-medium truncate">Falla RTSP Nodo 89</span>
+<span class="font-label-caps text-label-caps text-error uppercase">CRÍTICO</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">Heartbeat perdido tras 3 reintentos</span>
+</div>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-error flex-shrink-0">14:28:12</span>
+</div>
+</div>
+<!-- Direct Navigation Button -->
+<a class="h-12 w-full bg-surface-container-high hover:bg-surface-bright text-primary font-headline-sm text-headline-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span>VER BITÁCORA COMPLETA &amp; FILTROS</span>
+</a>
+</section>
+</div>
+<script>
+  // Tab Filter Interaction Simulation
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => {
+        t.classList.remove('bg-primary-container', 'text-on-primary');
+        t.classList.add('bg-surface-container-high', 'text-on-surface');
+      });
+      tab.classList.remove('bg-surface-container-high', 'text-on-surface');
+      tab.classList.add('bg-primary-container', 'text-on-primary');
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]" data-active-classes="text-primary bg-surface-container-high/60"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg transition-colors text-primary bg-surface-container-high/60" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-label-caps text-label-caps uppercase">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="camaras-y-nodos" href="#"><span class="material-symbols-outlined text-[20px]">videocam</span><span class="font-label-caps text-label-caps uppercase">Cámaras</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="bitacora-y-filtros" href="#"><span class="material-symbols-outlined text-[20px]">history_edu</span><span class="font-label-caps text-label-caps uppercase">Bitácora</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-error hover:text-error-container transition-colors relative" data-path="incidentes-sos" href="#"><span class="material-symbols-outlined text-[20px]">warning</span><span class="font-label-caps text-label-caps uppercase">SOS</span></a></div></nav></body></html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#a9bad3", "surface-container-high": "#23293c", "tertiary-container": "#00b17b", "inverse-primary": "#006591", "on-tertiary-container": "#003b26", "on-primary-fixed": "#001e2f", "on-secondary-fixed": "#0b1c30", "background": "#0c1324", "surface": "#0c1324", "outline-variant": "#3e4850", "surface-container-highest": "#2e3447", "inverse-surface": "#dce1fb", "secondary-fixed-dim": "#b7c8e1", "on-primary-container": "#003751", "secondary": "#b7c8e1", "tertiary": "#4edea3", "on-primary": "#00344d", "surface-bright": "#33394c", "on-tertiary-fixed-variant": "#005236", "primary-fixed": "#c9e6ff", "on-background": "#dce1fb", "surface-container-low": "#151b2d", "surface-variant": "#2e3447", "on-surface-variant": "#bec8d2", "on-error-container": "#ffdad6", "surface-dim": "#0c1324", "surface-container-lowest": "#070d1f", "error-container": "#93000a", "error": "#ffb4ab", "tertiary-fixed": "#6ffbbe", "secondary-container": "#3a4a5f", "on-error": "#690005", "outline": "#88929b", "primary-container": "#0ea5e9", "tertiary-fixed-dim": "#4edea3", "on-surface": "#dce1fb", "on-secondary-fixed-variant": "#38485d", "on-primary-fixed-variant": "#004c6e", "on-tertiary": "#003824", "surface-container": "#191f31", "on-tertiary-fixed": "#002113", "on-secondary": "#213145", "secondary-fixed": "#d3e4fe", "primary": "#89ceff", "inverse-on-surface": "#2a3043", "surface-tint": "#89ceff", "primary-fixed-dim": "#89ceff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "0.75rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-md": "0.75rem", "space-lg": "1rem", "space-xl": "1.5rem" }, "fontFamily": { "mono-timestamp": ["JetBrains Mono"], "stat-lg": ["JetBrains Mono"], "headline-lg": ["Inter"], "display-lg": ["Inter"], "mono-code": ["JetBrains Mono"], "body-sm": ["Inter"], "stat-md": ["JetBrains Mono"], "body-md": ["Inter"], "body-lg": ["Inter"], "headline-md": ["Inter"], "headline-sm": ["Inter"], "label-caps": ["Inter"] }, "fontSize": { "mono-timestamp": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "400" }], "stat-lg": ["24px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "mono-code": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "stat-md": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["16px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "600" }], "label-caps": ["10px", { "lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="Logo Sentinel Urbano" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrDIecmrhzSSrAY1_4PHxWwZb6XtiXuxw3hDcdzNssfVNPIqxA5Y7wNKPQxP9Z0XxQfn7scHeCGq-XaNRwC7ppc58uOHCXiyCDoGjpT8Dt2i0ebytB2xLsERGYHvDxk4DaZGrb-Z29JDW2E3JgqG3Jd13mgd7Coxr3wmMYxupnoBzfn-JTPx7TyDKUCndTG7yQgkVaXMtOD-nKOQcMeOVi13CO3pKsdKwOMPspIRzJSbIA"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight truncate">SENTINEL URBANO</span></div><span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">C4 Móvil • Nodo Erlang/OTP #04</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><div class="hidden xs:flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-low"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span></span><span class="font-mono-timestamp text-mono-timestamp text-tertiary">12ms</span></div><button aria-label="Alertas prioritarias" class="relative w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold leading-none">3</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-20 bg-surface"><div class="flex flex-col w-full">
+<!-- Time Range & Search Control Surface -->
+<section class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-md bg-surface-container-low shadow-sm">
+<!-- Active Range Display with Pulse Sync -->
+<div class="flex items-center justify-between gap-space-sm bg-surface-container px-space-md py-space-sm rounded-lg">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0">date_range</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Rango Activo Auditado</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface truncate">Hoy, 24 Oct 2024 (00:00:00 - 15:30:00)</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high flex-shrink-0">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary uppercase">En Línea</span>
+</div>
+</div>
+<!-- Quick-Time Preset Pills (Horizontal Scroll) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+<button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" type="button">
+        -15m
+      </button>
+<button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" type="button">
+        -1h
+      </button>
+<button class="preset-pill px-space-md py-1.5 rounded-full bg-primary-container text-on-primary font-mono-code text-mono-code font-bold active:scale-95 transition-all whitespace-nowrap shadow-sm" type="button">
+        Turno (8h)
+      </button>
+<button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" type="button">
+        Hoy
+      </button>
+<button class="preset-pill flex items-center gap-1 px-space-md py-1.5 rounded-full bg-surface-container text-primary font-mono-code text-mono-code hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" id="toggle-custom-range" type="button">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+<span>Personalizado</span>
+</button>
+</div>
+<!-- Collapsible Custom Timestamp Inputs Panel -->
+<div class="hidden flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl transition-all" id="custom-range-panel">
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1 min-w-0">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Desde (Fecha / Hora)</label>
+<div class="flex items-center gap-2 bg-surface-container px-space-sm py-2 rounded-lg text-on-surface focus-within:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+<input class="w-full bg-transparent font-mono-timestamp text-mono-timestamp text-on-surface outline-none" type="text" value="2024-10-24 00:00:00"/>
+</div>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Hasta (Fecha / Hora)</label>
+<div class="flex items-center gap-2 bg-surface-container px-space-sm py-2 rounded-lg text-on-surface focus-within:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+<input class="w-full bg-transparent font-mono-timestamp text-mono-timestamp text-on-surface outline-none" type="text" value="2024-10-24 15:30:00"/>
+</div>
+</div>
+</div>
+<button class="w-full h-10 mt-1 flex items-center justify-center gap-2 bg-surface-container-high text-primary hover:bg-primary-container hover:text-on-primary rounded-lg font-headline-sm text-headline-sm transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px]">filter_alt</span>
+<span>Aplicar Intervalo</span>
+</button>
+</div>
+<!-- Free-Text Search Input -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-12 pl-10 pr-10 bg-surface-container text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md rounded-xl outline-none focus:bg-surface-container-high transition-all shadow-inner" placeholder="Buscar por ID cámara, tag RFID, placa LPR..." type="search"/>
+<button aria-label="Limpiar búsqueda" class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+</section>
+<!-- Severity & Category Filters Rail -->
+<section class="px-margin py-space-md flex flex-col gap-space-sm bg-surface">
+<!-- Severity Counters -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+<!-- Todos -->
+<button class="filter-severity flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase active:scale-95 transition-all whitespace-nowrap shadow-sm" type="button">
+<span>Todos</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-mono-timestamp text-mono-timestamp">1,248</span>
+</button>
+<!-- OK -->
+<button class="filter-severity flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps uppercase hover:bg-tertiary-container/50 active:scale-95 transition-all whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Exitosos</span>
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-mono-timestamp text-mono-timestamp font-bold">1,180</span>
+</button>
+<!-- Alertas -->
+<button class="filter-severity flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-secondary-container/60 text-secondary-fixed font-label-caps text-label-caps uppercase hover:bg-secondary-container active:scale-95 transition-all whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Alertas</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-secondary font-mono-timestamp text-mono-timestamp font-bold">42</span>
+</button>
+<!-- Críticos -->
+<button class="filter-severity flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-error-container/40 text-error font-label-caps text-label-caps uppercase hover:bg-error-container/70 active:scale-95 transition-all whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Críticos</span>
+<span class="px-1.5 py-0.5 rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold">26</span>
+</button>
+</div>
+<!-- Category Filter Chips -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex-shrink-0 self-center pl-1 pr-1">Tipo:</span>
+<button class="px-3 py-1 rounded bg-surface-container-high text-primary font-body-sm text-body-sm font-semibold whitespace-nowrap" type="button">Todos</button>
+<button class="px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" type="button">Accesos &amp; Portones</button>
+<button class="px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" type="button">Cámaras &amp; IA</button>
+<button class="px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" type="button">Fallos Red Erlang</button>
+</div>
+</section>
+<!-- Forensic Audit Trail Events Feed -->
+<section class="px-margin flex flex-col gap-space-md pb-space-xl">
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">manage_search</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Bitácora Forense C4</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">SHA-256 Verificado</span>
+</div>
+<!-- EVENT 1: Critical RTSP Failure -->
+<article class="flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-md">
+<!-- Header bar with urgency cue -->
+<div class="flex items-center justify-between px-space-md py-space-sm bg-error-container text-on-error">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[18px] animate-pulse">crisis_alert</span>
+<span class="font-label-caps text-label-caps font-bold truncate">FALLA CRÍTICA - DESCONEXIÓN RTSP</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp font-bold flex-shrink-0">14:28:12.408</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">CAM-089</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Cruce Periférico Sur - Poste 14B</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-mono-timestamp text-mono-timestamp flex-shrink-0">Node_04</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface bg-surface-container-lowest p-space-sm rounded-lg leading-relaxed">
+          Timeout de socket tras <span class="font-mono-code text-mono-code text-error font-semibold">5000ms</span> sin respuesta de frame I. Supervisor Erlang inició reconexión automática en proceso worker <span class="font-mono-code text-mono-code text-primary">#PID&lt;0.412.0&gt;</span> (intento #3).
+        </p>
+<!-- Cryptographic Ledger Row -->
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">HASH: 9e3a...f881</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp">Worker ID: #0482</span>
+</div>
+<!-- Tactical Micro Actions -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<button class="h-11 flex items-center justify-center gap-1.5 px-space-sm rounded-lg bg-surface-container-high text-on-surface font-headline-sm text-headline-sm hover:bg-surface-bright active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span>Diagnóstico</span>
+</button>
+<button class="h-11 flex items-center justify-center gap-1.5 px-space-sm rounded-lg bg-primary-container text-on-primary font-headline-sm text-headline-sm font-semibold active:scale-[0.98] transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">history_toggle_off</span>
+<span>Clip Pre-Falla</span>
+</button>
+</div>
+</div>
+</article>
+<!-- EVENT 2: Alert Repeated Denied Access with Camera Snapshot -->
+<article class="flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="flex items-center justify-between px-space-md py-space-sm bg-secondary-container text-on-secondary-container">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+<span class="font-label-caps text-label-caps font-bold truncate">ALERTA - ACCESO DENEGADO REPETIDO</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp flex-shrink-0 text-on-secondary">14:15:30.112</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">TOR-07</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Torniquete Estación Central - Andén B</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary-fixed font-mono-timestamp text-mono-timestamp flex-shrink-0">RFID 13.56MHz</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface bg-surface-container-lowest p-space-sm rounded-lg leading-relaxed">
+          Tarjeta RFID ID: <span class="font-mono-code text-mono-code text-secondary font-bold">#9842A</span> rechazada 3 veces consecutivas en menos de 20 segundos. Alerta de intrusión enviada a cabina de control.
+        </p>
+<!-- Snapshot Visual Proof -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Captura Automática Vinculada (CAM-04)</span>
+<div class="relative w-full h-32 rounded-lg overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="High contrast CCTV surveillance camera capture of a subway station turnstile gate at night. A hooded figure in dark clothes is holding an electronic keycard against the reader terminal. Monospaced HUD overlays show timecode, biometric tracking box around the reader and security alert banner in neon amber." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcqdM0sJj_UWWsexvi2-ftjRFXSGva92zmPkxshMpd2IDwmC4_A8bO_tGjWRikNGKyLQPa_ZsPc7sRrBr5t8L5xkarH7GgAqc1V4AObpjOio9aIhTRSdv8OtUFj-H0NnbLi8ECB5DskZFkAZfMAShO0uT75aVXAasjJHx0GziCypFI-mONBjfIpxwTn80E44zkdMxR8-HoaDa0LjIKzp0vSivt5za3S72nda5kOG1l"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-1.5 bg-surface-container-lowest/90 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-secondary text-[14px]">videocam</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface">CAM-04 (Zoom 1.4x)</span>
+</div>
+<button class="absolute bottom-2 right-2 flex items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface font-mono-timestamp text-mono-timestamp hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[14px]">fullscreen</span>
+<span>Ampliar</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">HASH: 4d11...bb02</span>
+</div>
+<button class="text-primary hover:underline font-mono-timestamp text-mono-timestamp" type="button">Despachar Patrulla</button>
+</div>
+</div>
+</article>
+<!-- EVENT 3: Alert AI Crowd Gathering -->
+<article class="flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="flex items-center justify-between px-space-md py-space-sm bg-secondary-container text-on-secondary-container">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+<span class="font-label-caps text-label-caps font-bold truncate">ALERTA IA - AGLOMERACIÓN DETECTADA</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp flex-shrink-0 text-on-secondary">13:58:04.890</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">CAM-102</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Av. Juárez y Reforma - Semáforo Norte</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary font-mono-timestamp text-mono-timestamp flex-shrink-0">IA YOLOv9</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface bg-surface-container-lowest p-space-sm rounded-lg leading-relaxed">
+          Conteo superó umbral perimetral: <span class="font-mono-code text-mono-code text-secondary font-bold">&gt;35 personas</span> en zona de cruce restringido. Concentración anómala con vector de dispersión nulo.
+        </p>
+<!-- Inline Density Metric Bar -->
+<div class="flex flex-col gap-1 bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex justify-between font-mono-timestamp text-mono-timestamp text-on-surface-variant">
+<span>Densidad Perimetral</span>
+<span class="text-secondary font-bold">142% del límite</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">HASH: 7a90...cc41</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp">Confianza: 94.6%</span>
+</div>
+</div>
+</article>
+<!-- EVENT 4: Success Authorized Access (LPR Patrol) -->
+<article class="flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-sm">
+<div class="flex items-center justify-between px-space-md py-space-sm bg-tertiary-container/30 text-tertiary">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-label-caps text-label-caps font-bold truncate">ACCESO AUTORIZADO</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp flex-shrink-0">13:45:19.004</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">GAR-01</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Portón Vehicular Garita Norte</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-mono-timestamp text-mono-timestamp flex-shrink-0">LPR OK</span>
+</div>
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="px-2.5 py-1 bg-surface-container-high text-on-surface font-mono-code text-mono-code font-bold rounded tracking-wider border-l-2 border-tertiary">
+            JXZ-842
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md text-on-surface truncate">Unidad Patrulla Sector 4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Apertura de barrera: 12 seg</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">HASH: 3b12...0e59</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp">Operador: Auto-Gate OTP</span>
+</div>
+</div>
+</article>
+<!-- EVENT 5: Info Heartbeat Cluster OTP -->
+<article class="flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-sm">
+<div class="flex items-center justify-between px-space-md py-space-sm bg-surface-container-high text-primary">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="font-label-caps text-label-caps font-bold truncate">REPORTE PERIÓDICO HEARTBEAT</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp flex-shrink-0 text-on-surface-variant">13:30:00.000</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Cluster OTP Sentinel #04</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Nodo Maestro Erlang BEAM</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-tertiary font-mono-timestamp text-mono-timestamp flex-shrink-0">Nominal</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs bg-surface-container-lowest p-space-sm rounded-lg text-center">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Nodos Vivos</span>
+<span class="font-stat-md text-stat-md text-on-surface">148 / 148</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">RAM BEAM</span>
+<span class="font-stat-md text-stat-md text-primary">184 MB</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Carga CPU</span>
+<span class="font-stat-md text-stat-md text-tertiary">4.2%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">HASH: 11ef...9aa3</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp">Erlang/OTP 26.2</span>
+</div>
+</div>
+</article>
+</section>
+<!-- Sticky Forensic Action & Ledger Footbar -->
+<section class="sticky bottom-16 z-30 px-margin py-space-sm bg-surface-container-lowest/95 backdrop-blur-md flex flex-col gap-space-xs shadow-[0_-4px_16px_rgba(0,0,0,0.4)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[16px]">filter_list</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Mostrando 5 de 1,248 eventos</span>
+</div>
+<span class="font-mono-timestamp text-mono-timestamp text-tertiary">Hash Ring: OK</span>
+</div>
+<button class="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-bright active:scale-[0.98] transition-all font-headline-sm text-headline-sm font-semibold shadow-md" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">download</span>
+<span>Descargar CSV / PDF de Bitácora</span>
+</button>
+</section>
+</div>
+<script>
+  (function () {
+    // Toggle Custom Date/Time Inputs Panel
+    const toggleBtn = document.getElementById('toggle-custom-range');
+    const customPanel = document.getElementById('custom-range-panel');
+
+    if (toggleBtn && customPanel) {
+      toggleBtn.addEventListener('click', function () {
+        const isHidden = customPanel.classList.contains('hidden');
+        if (isHidden) {
+          customPanel.classList.remove('hidden');
+          customPanel.classList.add('flex');
+          toggleBtn.classList.add('bg-primary-container', 'text-on-primary');
+          toggleBtn.classList.remove('bg-surface-container', 'text-primary');
+        } else {
+          customPanel.classList.add('hidden');
+          customPanel.classList.remove('flex');
+          toggleBtn.classList.remove('bg-primary-container', 'text-on-primary');
+          toggleBtn.classList.add('bg-surface-container', 'text-primary');
+        }
+      });
+    }
+
+    // Interactive Preset Pills Selection Micro-behavior
+    const presetPills = document.querySelectorAll('.preset-pill:not(#toggle-custom-range)');
+    presetPills.forEach(pill => {
+      pill.addEventListener('click', function () {
+        presetPills.forEach(p => {
+          p.classList.remove('bg-primary-container', 'text-on-primary', 'font-bold', 'shadow-sm');
+          p.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        this.classList.add('bg-primary-container', 'text-on-primary', 'font-bold', 'shadow-sm');
+      });
+    });
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]" data-active-classes="text-primary bg-surface-container-high/60"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-label-caps text-label-caps uppercase">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="camaras-y-nodos" href="#"><span class="material-symbols-outlined text-[20px]">videocam</span><span class="font-label-caps text-label-caps uppercase">Cámaras</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg transition-colors text-primary bg-surface-container-high/60" data-path="bitacora-y-filtros" href="#"><span class="material-symbols-outlined text-[20px]">history_edu</span><span class="font-label-caps text-label-caps uppercase">Bitácora</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-error hover:text-error-container transition-colors relative" data-path="incidentes-sos" href="#"><span class="material-symbols-outlined text-[20px]">warning</span><span class="font-label-caps text-label-caps uppercase">SOS</span></a></div></nav></body></html>
