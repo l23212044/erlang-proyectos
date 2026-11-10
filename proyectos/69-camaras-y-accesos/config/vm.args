@@ -1,7 +1,7 @@
 -name p69_camaras_y_accesos@127.0.0.1
--setcookie cambiar_en_produccion
-+S 4:4
-+SDcpu 4:4
+-setcookie 08872f34e79325432fa10329633f9c07
++S 20:20
++SDcpu 20:20
 +SDio 10
 +K true
 +P 1048576
