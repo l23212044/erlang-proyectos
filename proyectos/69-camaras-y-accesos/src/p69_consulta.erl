@@ -37,8 +37,18 @@ start_link(Parent, Ref, Desde, Hasta, Filtros) ->
   {ok, Pid}.
 
 ejecutar(Parent, Ref, Desde, Hasta, Filtros) ->
+  Inicio = erlang:monotonic_time(microsecond),
   Resultado = p69_bitacora:buscar(Desde, Hasta, Filtros),
+  Duracion = erlang:monotonic_time(microsecond) - Inicio,
+  metricas(consultas, 1),
+  metricas(consulta_latencia_total_us, Duracion),
   Parent ! {Ref, Resultado}.
+
+metricas(Clave, N) ->
+  case whereis(p69_metricas) of
+    undefined -> ok;
+    _ -> p69_metricas:inc(Clave, N)
+  end.
 
 recibir(Pid, Mon, Ref, Timeout) ->
   receive

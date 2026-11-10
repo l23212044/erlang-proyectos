@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P69 Camaras y accesos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1b1b1b; background: #f6f7f9; }
+    main { max-width: 46rem; margin: auto; background: #fff; padding: 1.5rem 2rem; border-radius: 12px; }
+    code { background: #eef1f5; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    .nota { color: #6b5200; background: #fff6d6; padding: 0.8rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Cámaras y accesos — API activa</h1>
+  <p>Backend Erlang/OTP funcionando. La interfaz final se integrará desde el
+  export de Google Stitch (<code>design/</code>).</p>
+  <p class="nota">Esta página es solo un marcador de posición de la Fase 3; no es
+  la UI final ni fue hecha con Stitch.</p>
+  <h2>Endpoints</h2>
+  <ul>
+    <li><code>GET /api/salud</code></li>
+    <li><code>GET /api/eventos?desde=&amp;hasta=&amp;edificio=&amp;camara=&amp;tipo=&amp;persona=</code></li>
+    <li><code>POST /api/eventos</code></li>
+    <li><code>GET /api/dispositivos</code></li>
+    <li><code>GET /api/alertas</code></li>
+    <li><code>GET /api/bitacora/verificar</code></li>
+    <li><code>GET /metrics</code></li>
+    <li><code>WS /ws/eventos</code></li>
+  </ul>
+</main>
+</body>
+</html>

@@ -4,7 +4,7 @@
 %% el segmento completo.
 -module(p69_almacen).
 
--export([crear/0, borrar/1, insertar/2, buscar/5, contar/1, plegar/3]).
+-export([crear/0, borrar/1, insertar/2, buscar/5, contar/1, plegar/3, memoria/1]).
 
 -export_type([segmento/0]).
 
@@ -57,6 +57,11 @@ buscar(Seg, Desde, Hasta, Filtros, MaxSeq) when Desde =< Hasta ->
 -spec contar(segmento()) -> non_neg_integer().
 contar(#{eventos := Eventos}) ->
   ets:info(Eventos, size).
+
+-spec memoria(segmento()) -> non_neg_integer().
+memoria(#{eventos := Eventos, indices := Indices}) ->
+  Palabra = erlang:system_info(wordsize),
+  (ets:info(Eventos, memory) + ets:info(Indices, memory)) * Palabra.
 
 %% Recorre el segmento completo en orden, sin materializar listas grandes.
 -spec plegar(fun((map(), term()) -> term()), term(), segmento()) -> term().

@@ -11,15 +11,15 @@
 start_link() ->
   gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
--spec inc(atom()) -> ok.
+-spec inc(term()) -> ok.
 inc(Key) -> inc(Key, 1).
 
--spec inc(atom(), integer()) -> ok.
+-spec inc(term(), integer()) -> ok.
 inc(Key, N) ->
   _ = ets:update_counter(?TAB, Key, N, {Key, 0}),
   ok.
 
--spec set(atom(), integer()) -> ok.
+-spec set(term(), integer()) -> ok.
 set(Key, Valor) ->
   true = ets:insert(?TAB, {Key, Valor}),
   ok.

@@ -29,6 +29,13 @@ init([]) ->
       type => worker
     },
     #{
+      id => p69_eventos_pub,
+      start => {p69_eventos_pub, start_link, []},
+      restart => permanent,
+      shutdown => 5000,
+      type => worker
+    },
+    #{
       id => p69_sitios_sup,
       start => {p69_sitios_sup, start_link, []},
       restart => permanent,
@@ -54,6 +61,13 @@ init([]) ->
       start => {p69_retencion, start_link, []},
       restart => permanent,
       shutdown => 5000,
+      type => worker
+    },
+    #{
+      id => p69_http,
+      start => {p69_http, start_link, []},
+      restart => permanent,
+      shutdown => 10000,
       type => worker
     },
     #{

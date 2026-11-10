@@ -6,7 +6,8 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 
 - Fase 1 (Entorno): **completada** (toolchain local; ver nota).
 - Fase 2 (Nucleo OTP): **completada** (`rebar3 compile` OK, `rebar3 eunit` 41 pruebas, 0 fallos).
-- Fases 3 a 7: pendientes.
+- Fase 3 (API REST, WebSocket, metricas y estaticos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 45 pruebas, 0 fallos; humo real de API y WS).
+- Fases 4 a 7: pendientes.
 
 ## Entorno verificado
 
@@ -45,6 +46,10 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - `p69_consultas_sup`, `p69_consulta`: consultas efimeras que no bloquean la ingesta.
 - `p69_retencion`: borrado periodico de segmentos vencidos.
 - `p69_metricas`: contadores ETS para `/metrics` (Fase 3).
+- `p69_api`, `p69_api_eventos`, `p69_api_dispositivos`, `p69_api_alertas`,
+  `p69_api_verificar`, `p69_api_salud`, `p69_api_metrics`: handlers REST (Fase 3).
+- `p69_http`: listener cowboy y tabla de rutas (incluye estaticos de `priv/www`).
+- `p69_ws` y `p69_eventos_pub`: WebSocket `/ws/eventos` y pub/sub de eventos (Fase 3).
 
 ## Decisiones de los casos dificiles
 
@@ -58,7 +63,7 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
-- Mejorar `design/PROMPT_STITCH.md` (Fase 3) y esperar el export del usuario (Fase 5).
+- Esperar el export de Google Stitch en `design/` (Fase 5); el prompt ya esta mejorado con campos reales de la API.
 - Simulador, caos, UI, release/systemd, manual (Fases 4 a 7).
 
 ## Registro de fases
@@ -81,3 +86,26 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
   recuperacion desde WAL y arbol de supervision.
 - Limitacion documentada: el WAL crece sin truncarse; el libro de hashes conserva una entrada
   por evento para poder verificar tras la retencion.
+
+### Fase 3 - API REST, WebSocket, metricas y estaticos
+
+- Endpoints: `GET /`, `GET/POST /api/eventos`, `GET /api/dispositivos`,
+  `GET /api/dispositivos/:id`, `GET /api/alertas`, `GET /api/bitacora/verificar`,
+  `GET /api/salud`, `GET /metrics`, `WS /ws/eventos`.
+- Supervisor raiz ampliado con `p69_eventos_pub` y `p69_http`; `num_aceptores` en
+  `sys.config`; `priv/www/index.html` es solo marcador de posicion honesto (la UI
+  final vendra del export de Stitch).
+- `rebar3 compile`: OK sin warnings.
+- `rebar3 eunit`: **45 tests, 0 fallos**, incluida una suite de integracion HTTP real
+  (salud, estaticos, alta, busqueda con filtros, dispositivos, alertas, validacion,
+  paginacion y verificacion de integridad).
+- Humo manual con el release de desarrollo:
+  - `GET /api/salud` -> `estado: ok`, OTP 27.
+  - `POST /api/eventos` con fecha de 2023 -> `400 fuera_de_retencion` (retencion de
+    30 dias; comportamiento correcto).
+  - `GET /api/eventos`, `/api/bitacora/verificar` y `/metrics` -> respuestas reales.
+  - WebSocket `/ws/eventos`: handshake `101 Switching Protocols`, resumen inicial y
+    resumen posterior al alta de un evento.
+- Prueba de reconocimiento: un evento con `ts_evento` antiguo pero
+  `ts_recepcion` actual se marca `desfasado` y se corrige con el offset estimado; para
+  cargas historicas hay que enviar `ts_recepcion` dentro de la retencion.

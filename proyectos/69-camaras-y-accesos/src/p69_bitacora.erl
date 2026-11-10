@@ -209,19 +209,25 @@ handle_call(info_segmentos, _From, Estado) ->
       desde => maps:get(desde, Meta),
       hasta => maps:get(hasta, Meta),
       eventos => p69_almacen:contar(maps:get(almacen, Meta)),
+      memoria_bytes => p69_almacen:memoria(maps:get(almacen, Meta)),
       pines => maps:get(Id, Estado#estado.pin_counts, 0)
     }
    || {Id, Meta} <- lists:sort(maps:to_list(Estado#estado.segmentos))
   ],
   {reply, Info, Estado};
 handle_call(estado, _From, Estado) ->
+  Cola = case erlang:process_info(self(), message_queue_len) of
+    {message_queue_len, N} -> N;
+    undefined -> 0
+  end,
   {reply, #{
     seq => Estado#estado.seq,
     ultimo_hash => Estado#estado.last_hash,
     cp_seq => Estado#estado.cp_seq,
     segmentos => map_size(Estado#estado.segmentos),
     pines => map_size(Estado#estado.pines),
-    relojes => maps:size(Estado#estado.relojes)
+    relojes => maps:size(Estado#estado.relojes),
+    cola_ingesta => Cola
   }, Estado};
 handle_call({offset_dispositivo, Disp}, _From, Estado) ->
   case maps:find(Disp, Estado#estado.relojes) of
@@ -326,6 +332,8 @@ insertar_en_memoria(Ev, Estado) ->
   true = ets:insert(Estado2#estado.tid_hash, {Seq, #{
     hash => maps:get(hash, Ev), hash_prev => maps:get(hash_prev, Ev)
   }}),
+  metricas(inc, [{eventos_dispositivo, maps:get(dispositivo_id, Ev)}]),
+  metricas(inc, [{eventos_tipo, maps:get(tipo_evento, Ev)}]),
   Estado2.
 
 corte_retencion(#estado{segundos = _Segundos}) ->
@@ -581,6 +589,10 @@ notificar(Ev) ->
   case whereis(p69_sitios) of
     undefined -> ok;
     _ -> p69_sitios:notificar(Ev)
+  end,
+  case whereis(p69_eventos_pub) of
+    undefined -> ok;
+    _ -> p69_eventos_pub:publicar(Ev)
   end.
 
 metricas(Fun, Args) ->

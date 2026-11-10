@@ -2,7 +2,7 @@
 
 Todo lo que requiere intervencion manual del usuario. Se actualiza al final de cada fase.
 
-## Ahora (Fase 1)
+## Ahora (Fase 3 terminada)
 
 - [ ] Instalar Erlang/rebar3 a nivel sistema. El agente no puede autenticar `sudo` sin TTY.
       Comando en tu terminal:
@@ -12,11 +12,21 @@ Todo lo que requiere intervencion manual del usuario. Se actualiza al final de c
       El proyecto real es `/home/zero/erlang-proyectos/proyectos/69-camaras-y-accesos/`;
       se copio `AGENTS.md` aqui. Puedes borrar el duplicado cuando quieras.
 
-## Fase 5 (Google Stitch)
+## Fase 3 (API ya estable) - accion inmediata del usuario
 
-- [ ] Operar Google Stitch a mano con el prompt mejorado.
-- [ ] Exportar el zip (con `DESIGN.md`) y descomprimirlo en `design/`.
+- [ ] Abrir Google Stitch y pegar el contenido de `design/PROMPT_STITCH.md`.
+      Pedir las 4 pantallas en escritorio y movil: panel en vivo, bitacora,
+      dispositivos y detalle, integridad y salud.
+- [ ] Exportar el zip de Stitch (con `DESIGN.md`) y descomprimirlo dentro de
+      `design/`.
 - [ ] Guardar capturas de pantalla de Stitch para la entrega.
+- [ ] Opcional: probar `http://localhost:8080/` desde el navegador de Windows con
+      el proyecto arrancado para confirmar el acceso.
+
+No hace falta que hagas nada mas para que el agente continue: al recibir el export
+en `design/` se integrara en Fase 5.
+
+## Fase 5 (integracion de la UI)
 
 ## Fase 7 (Manual y entrega)
 

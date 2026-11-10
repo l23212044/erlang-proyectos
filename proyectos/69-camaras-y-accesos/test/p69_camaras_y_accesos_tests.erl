@@ -7,6 +7,8 @@ arbol_de_supervision_test_() ->
      Dir = p69_test_util:dir(),
      p69_test_util:config(datos_dir, Dir),
      p69_test_util:config(retencion_dias, 0),
+     p69_test_util:config(puerto, 0),
+     p69_test_util:config(num_aceptores, 5),
      {ok, Pid} = p69_camaras_y_accesos_sup:start_link(),
      #{dir => Dir, pid => Pid}
    end,

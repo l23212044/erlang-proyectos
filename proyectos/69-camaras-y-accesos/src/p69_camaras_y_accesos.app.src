@@ -6,10 +6,12 @@
     p69_camaras_y_accesos_server,
     p69_metricas,
     p69_bitacora,
+    p69_eventos_pub,
     p69_sitios_sup,
     p69_sitios,
     p69_consultas_sup,
-    p69_retencion
+    p69_retencion,
+    p69_http
   ]},
   {mod, {p69_camaras_y_accesos_app, []}},
   {applications, [kernel, stdlib, crypto, cowboy, recon]},
