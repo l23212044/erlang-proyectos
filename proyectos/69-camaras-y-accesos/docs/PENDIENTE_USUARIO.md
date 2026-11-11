@@ -2,7 +2,7 @@
 
 Todo lo que requiere intervencion manual del usuario. Se actualiza al final de cada fase.
 
-## Ahora (Fase 5 terminada)
+## Ahora (Fase 6 terminada)
 
 - [ ] Instalar Erlang/rebar3 a nivel sistema. El agente no puede autenticar `sudo` sin TTY.
       Comando en tu terminal:
@@ -19,6 +19,16 @@ Todo lo que requiere intervencion manual del usuario. Se actualiza al final de c
       arrancada y revisar escritorio y movil.
 - [ ] Guardar capturas de pantalla de la **app real** para la entrega.
 - [ ] Reportar cualquier detalle visual que no coincida con el export de Stitch.
+
+## Fase 6 (release y systemd) - accion del usuario
+
+- [ ] Construir el release: `rebar3 as prod release`.
+- [ ] Instalar el servicio en la VM: `sudo scripts/instalar_servicio.sh`.
+      (El agente no puede ejecutar `sudo` interactivo.)
+- [ ] Verificar: `systemctl status p69-camaras-y-accesos` y
+      `curl -sS http://127.0.0.1:8080/api/salud`.
+- [ ] Detener `rebar3 shell` antes de instalar si usa el puerto `8080`.
+- [ ] Seguir `docs/DESPLIEGUE.md` para actualizar o desinstalar.
 
 Para probar el backend con carga y caos:
 

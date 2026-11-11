@@ -9,7 +9,8 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 - Fase 3 (API REST, WebSocket, metricas y estaticos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 45 pruebas, 0 fallos; humo real de API y WS).
 - Fase 4 (Simulador y caos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 49 pruebas, 0 fallos; caos real con 1,000,000 de eventos y resultados en `docs/CAOS.md`).
 - Fase 5 (UI Stitch integrada): **completada** (`rebar3 compile` OK, `rebar3 eunit` 51 pruebas, 0 fallos; humo HTTP real con datos del WAL).
-- Fases 6 y 7: pendientes (release/systemd, manual y demo).
+- Fase 6 (Release y systemd): **completada** (release prod construido y probado; unidad systemd y script de instalacion listos). Falta verificacion con `sudo` en la VM.
+- Fase 7 (Manual y demo): pendiente.
 
 ## Entorno verificado
 
@@ -69,9 +70,9 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
-- Integrar release/systemd y material de demo (Fases 6 y 7).
+- Material de demo y manual en Gist (Fase 7).
 - Verificacion visual en navegador real (el agente no tiene navegador/headless en esta maquina).
-- Revisar la UI en escritorio y movil antes de la entrega.
+- Instalar y probar el servicio systemd con `sudo` en la VM.
 
 ## Registro de fases
 
@@ -170,3 +171,24 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - Limitacion: no hay navegador/headless instalado, asi que la verificacion fue de API,
   HTTP y sintaxis JS (`node --check`), no visual. Las capturas reales quedan para el
   usuario.
+
+### Fase 6 - Release y systemd
+
+- `rebar.config`: perfil `prod` con `config/sys.config.prod` (datos persistentes
+  en `/var/lib/p69-camaras-y-accesos`).
+- `rebar3 as prod release`: release `p69_camaras_y_accesos-0.1.0` construido.
+- `deploy/p69-camaras-y-accesos.service`: unidad systemd con usuario `p69`,
+  `StateDirectory`, `Restart=on-failure` y endurecimiento (`ProtectSystem=strict`).
+- `scripts/instalar_servicio.sh`: instala usuario, datos, release en `/opt` y unidad;
+  exige `sudo` y no se ejecuto desde el agente.
+- `docs/DESPLIEGUE.md`: montaje, verificacion, actualizacion y desinstalacion.
+- Humo real del release en el puerto `18081` con `sys.config` temporal:
+  - `/api/salud` -> 200, OTP 27;
+  - UI `/` -> 200;
+  - `POST /api/eventos` -> 201;
+  - WebSocket `/ws/eventos` -> `101 Switching Protocols`;
+  - reinicio del release: WAL recuperado (`seq=1`) y dispositivo reconstruido.
+- `systemd-analyze verify` sobre la unidad con `ExecStart` sustituido: OK.
+- `rebar3 compile` y `rebar3 eunit`: **51 tests, 0 fallos**.
+- Limitacion: la instalacion systemd real no se ejecuto por falta de `sudo` interactivo;
+  queda como accion manual en `docs/PENDIENTE_USUARIO.md`.
