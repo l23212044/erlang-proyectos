@@ -47,10 +47,26 @@ sudo scripts/instalar_servicio.sh
 
 Detalle completo en [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md).
 
+## Demo
+
+```bash
+rebar3 as prod release
+scripts/demo.sh --limpiar
+# al terminar:
+scripts/demo.sh --detener
+```
+
+El guion completo esta en [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md).
+
 ## Documentacion
 
 - [`problema/readme.md`](problema/readme.md): enunciado.
 - [`docs/PROGRESO.md`](docs/PROGRESO.md): estado por fase y decisiones.
+- [`docs/DISENO_OTP.md`](docs/DISENO_OTP.md): procesos, supervisores y casos dificiles.
+- [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md): release, systemd y operacion.
+- [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md): guion cronometrado y preguntas.
+- [`docs/MANUAL_GIST.md`](docs/MANUAL_GIST.md): manual para el cliente (Gist).
+- [`docs/SUPUESTOS.md`](docs/SUPUESTOS.md): supuestos y cifras verificadas.
 - [`docs/CAOS.md`](docs/CAOS.md): mediciones reales de carga y caos.
 - [`docs/PENDIENTE_USUARIO.md`](docs/PENDIENTE_USUARIO.md): acciones manuales.
 - [`design/PROMPT_STITCH.md`](design/PROMPT_STITCH.md): prompt de UI.

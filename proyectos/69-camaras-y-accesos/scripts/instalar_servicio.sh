@@ -5,10 +5,11 @@
 set -euo pipefail
 
 SERVICIO="p69-camaras-y-accesos"
+APP="p69_camaras_y_accesos"
 DESTINO="/opt/${SERVICIO}"
 DATOS="/var/lib/${SERVICIO}"
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-RELEASE="${RAIZ}/_build/prod/rel/${SERVICIO}"
+RELEASE="${RAIZ}/_build/prod/rel/${APP}"
 UNIDAD="${RAIZ}/deploy/${SERVICIO}.service"
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -16,7 +17,7 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-if [ ! -x "${RELEASE}/bin/${SERVICIO}" ]; then
+if [ ! -x "${RELEASE}/bin/${APP}" ]; then
   echo "ERROR: no existe el release. Ejecuta antes:" >&2
   echo "  rebar3 as prod release" >&2
   exit 1

@@ -10,7 +10,7 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 - Fase 4 (Simulador y caos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 49 pruebas, 0 fallos; caos real con 1,000,000 de eventos y resultados en `docs/CAOS.md`).
 - Fase 5 (UI Stitch integrada): **completada** (`rebar3 compile` OK, `rebar3 eunit` 51 pruebas, 0 fallos; humo HTTP real con datos del WAL).
 - Fase 6 (Release y systemd): **completada** (release prod construido y probado; unidad systemd y script de instalacion listos). Falta verificacion con `sudo` en la VM.
-- Fase 7 (Manual y demo): pendiente.
+- Fase 7 (Manual y demo): **material listo**; faltan capturas reales y publicar el Gist.
 
 ## Entorno verificado
 
@@ -70,7 +70,7 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
-- Material de demo y manual en Gist (Fase 7).
+- Capturas reales de la app y publicacion del Gist (requieren accion del usuario).
 - Verificacion visual en navegador real (el agente no tiene navegador/headless en esta maquina).
 - Instalar y probar el servicio systemd con `sudo` en la VM.
 
@@ -192,3 +192,14 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - `rebar3 compile` y `rebar3 eunit`: **51 tests, 0 fallos**.
 - Limitacion: la instalacion systemd real no se ejecuto por falta de `sudo` interactivo;
   queda como accion manual en `docs/PENDIENTE_USUARIO.md`.
+
+### Fase 7 - Manual y material de demo
+
+- `docs/DISENO_OTP.md`: arbol de supervision, responsabilidades, casos dificiles y limites.
+- `docs/SUPUESTOS.md`: supuestos propios y cifras del enunciado marcadas como no verificadas.
+- `docs/MANUAL_GIST.md`: manual para el cliente, ejemplos `curl`, UI, retencion y
+  solucion de problemas, con marcadores de capturas.
+- `docs/GUION_DEMO.md`: guion de ~10 min y preguntas probables.
+- `scripts/demo.sh`: release local limpio, historico reciente y flujo en vivo;
+  probado en el puerto `18082` (300 dispositivos, salud `ok`, `seq > 5000`).
+- Pendiente del usuario: capturas reales y publicar el Gist. No se publico nada.

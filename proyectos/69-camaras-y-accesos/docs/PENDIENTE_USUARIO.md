@@ -2,7 +2,7 @@
 
 Todo lo que requiere intervencion manual del usuario. Se actualiza al final de cada fase.
 
-## Ahora (Fase 6 terminada)
+## Ahora (Fase 7 con material listo)
 
 - [ ] Instalar Erlang/rebar3 a nivel sistema. El agente no puede autenticar `sudo` sin TTY.
       Comando en tu terminal:
@@ -43,6 +43,8 @@ los datos historicos muy antiguos aparecen como `falla` por falta de latido.
 
 ## Fase 7 (Manual y entrega)
 
-- [ ] Tomar capturas de la app real.
-- [ ] Revisar y publicar el Gist (no se publicara sin tu confirmacion).
-- [ ] Ensayar la demo completa en la VM.
+- [ ] Revisar `docs/MANUAL_GIST.md` y quitar/cambiar lo que no aplique.
+- [ ] Tomar las capturas marcadas en `docs/MANUAL_GIST.md` y `docs/GUION_DEMO.md`.
+- [ ] Publicar `docs/MANUAL_GIST.md` como Gist (no se publico nada).
+- [ ] Ensayar la demo con `docs/GUION_DEMO.md` y `scripts/demo.sh --limpiar`.
+- [ ] Opcional: correr `scripts/caos.sh --eventos 1000000` antes de la demo.
