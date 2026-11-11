@@ -17,7 +17,8 @@
   baja_segmento/1,
   info_segmentos/0,
   estado/0,
-  offset_dispositivo/1
+  offset_dispositivo/1,
+  ultimos_por_dispositivo/0
 ]).
 
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2]).
@@ -120,6 +121,13 @@ estado() ->
 -spec offset_dispositivo(binary()) -> {ok, integer(), boolean()} | {error, no_encontrado}.
 offset_dispositivo(Disp) ->
   gen_server:call(?MODULE, {offset_dispositivo, Disp}, 15000).
+
+%% Ultimo evento de cada dispositivo recuperado del WAL. Se usa al arrancar
+%% p69_sitios para reconstruir el estado de los gen_servers sin reenviar toda
+%% la bitacora. Recorre el ETS ordenado por seq y se queda con el mas reciente.
+-spec ultimos_por_dispositivo() -> [map()].
+ultimos_por_dispositivo() ->
+  gen_server:call(?MODULE, ultimos_por_dispositivo, 30000).
 
 %% Callbacks
 
@@ -229,6 +237,15 @@ handle_call(estado, _From, Estado) ->
     relojes => maps:size(Estado#estado.relojes),
     cola_ingesta => Cola
   }, Estado};
+handle_call(ultimos_por_dispositivo, _From, Estado) ->
+  PorDisp = ets:foldl(
+    fun({_Seq, Ev}, Acc) ->
+      maps:put(maps:get(dispositivo_id, Ev), Ev, Acc)
+    end,
+    #{},
+    Estado#estado.tid_seq
+  ),
+  {reply, maps:values(PorDisp), Estado};
 handle_call({offset_dispositivo, Disp}, _From, Estado) ->
   case maps:find(Disp, Estado#estado.relojes) of
     {ok, Reloj} ->

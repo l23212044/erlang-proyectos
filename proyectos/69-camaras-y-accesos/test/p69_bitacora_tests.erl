@@ -30,7 +30,11 @@ ingesta_busqueda_test_() ->
     {ok, _} = p69_bitacora:ingresar(
       p69_test_util:ev(<<"pue-1">>, <<"B">>, puerta, <<"puerta_abierta">>, T + 5 * 1000000)),
     {ok, Todos} = p69_bitacora:buscar(T, T + 30 * 1000000, #{}),
-    [?_assertEqual([1, 3, 2], [maps:get(seq, E) || E <- Todos]),
+    Ultimos = p69_bitacora:ultimos_por_dispositivo(),
+    Cam1 = [E || E <- Ultimos, maps:get(dispositivo_id, E) =:= <<"cam-1">>],
+    [?_assertEqual(2, length(Ultimos)),
+     ?_assertEqual([2], [maps:get(seq, E) || E <- Cam1]),
+     ?_assertEqual([1, 3, 2], [maps:get(seq, E) || E <- Todos]),
      ?_assertEqual([1, 2], [maps:get(seq, E) || E <- elems(
         p69_bitacora:buscar(T, T + 30 * 1000000, #{edificio => <<"A">>}))]),
      ?_assertEqual([3], [maps:get(seq, E) || E <- elems(

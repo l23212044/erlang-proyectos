@@ -27,6 +27,8 @@ sitios() ->
   gen_server:call(?MODULE, sitios, 15000).
 
 init([]) ->
+  %% Diferimos la reconstruccion para no bloquear el arranque del supervisor.
+  self() ! reconstruir,
   {ok, #{sitios => #{}, dispositivos => #{}}}.
 
 handle_call(dispositivos, _From, Estado) ->
@@ -70,6 +72,13 @@ handle_cast({evento, Ev}, Estado) ->
 handle_cast(_Msg, Estado) ->
   {noreply, Estado}.
 
+handle_info(reconstruir, Estado) ->
+  Eventos = p69_bitacora:ultimos_por_dispositivo(),
+  lists:foreach(fun notificar/1, Eventos),
+  logger:info("sitios reconstruidos desde la bitacora", #{
+    dispositivos => length(Eventos)
+  }),
+  {noreply, Estado};
 handle_info(_Info, Estado) ->
   {noreply, Estado}.
 

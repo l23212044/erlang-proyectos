@@ -35,5 +35,10 @@ metricas_json(Map) ->
 
 clave(Map) ->
   maps:from_list([
-    {p69_api:clave_texto(K), V} || {K, V} <- maps:to_list(Map)
+    {p69_api:clave_texto(K), valor(K, V)} || {K, V} <- maps:to_list(Map)
   ]).
+
+%% El hash interno es binario crudo (32 bytes) y no siempre es UTF-8 valido.
+%% La API lo expone en hexadecimal igual que los eventos.
+valor(ultimo_hash, V) when is_binary(V) -> binary:encode_hex(V);
+valor(_K, V) -> V.

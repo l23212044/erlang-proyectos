@@ -8,7 +8,8 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 - Fase 2 (Nucleo OTP): **completada** (`rebar3 compile` OK, `rebar3 eunit` 41 pruebas, 0 fallos).
 - Fase 3 (API REST, WebSocket, metricas y estaticos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 45 pruebas, 0 fallos; humo real de API y WS).
 - Fase 4 (Simulador y caos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 49 pruebas, 0 fallos; caos real con 1,000,000 de eventos y resultados en `docs/CAOS.md`).
-- Fases 5 a 7: pendientes (Fase 5 espera el export de Stitch).
+- Fase 5 (UI Stitch integrada): **completada** (`rebar3 compile` OK, `rebar3 eunit` 51 pruebas, 0 fallos; humo HTTP real con datos del WAL).
+- Fases 6 y 7: pendientes (release/systemd, manual y demo).
 
 ## Entorno verificado
 
@@ -68,9 +69,9 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
-- Esperar el export de Google Stitch en `design/` (Fase 5); el prompt ya esta mejorado con campos reales de la API.
-- Integrar la UI, release/systemd y material de demo (Fases 6 y 7).
-- Simulador, caos, UI, release/systemd, manual (Fases 4 a 7).
+- Integrar release/systemd y material de demo (Fases 6 y 7).
+- Verificacion visual en navegador real (el agente no tiene navegador/headless en esta maquina).
+- Revisar la UI en escritorio y movil antes de la entrega.
 
 ## Registro de fases
 
@@ -140,3 +141,32 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
   10 consultas durante la ingesta con 353 ms promedio vs 314 ms en reposo,
   recuperacion de bitacora 11,619 ms sin perder `seq` y verificacion 4,854 ms.
 - Limitacion: el WAL no se trunca; el arranque con millones de eventos es lineal.
+
+### Fase 5 - Integracion de la UI de Stitch
+
+- Export copiado a `design/stitch_sistema_de_seguridad_ciudadana/` (3 pantallas + `DESIGN.md` + capturas).
+- UI real en `priv/www/`: `index.html` (dashboard), `bitacora.html` y `nodo.html`, con
+  `assets/app.js`, `assets/app.css`, `assets/theme.js` y `assets/logo.svg`.
+- Tailwind 3.4.17 y fuentes (Inter, JetBrains Mono, Material Symbols) vendoreados en
+  `priv/www/vendor/`; la UI no depende de CDNs externos.
+- `app.js` consume la API real (`/api/salud`, `/api/dispositivos`, `/api/eventos`,
+  `/api/alertas`, `/api/bitacora/verificar`) y el WebSocket `/ws/eventos` con ping,
+  latencia y reconexion. No inventa controles fisicos/PTZ: esos botones avisan que la
+  API de la demo no los expone.
+- Bitacora: filtros por severidad/tipo, busqueda, rango personalizado, exportacion CSV,
+  copia de hash y estado de integridad SHA-256.
+- Detalle de nodo: telemetria real, eventos de las ultimas 24 h y enlaces a bitacora.
+- Correccion encontrada en el humo: `/api/salud` fallaba con `json:invalid_byte` porque
+  `ultimo_hash` es un binario crudo; ahora se expone en hexadecimal. Prueba de regresion
+  agregada.
+- Correccion de arranque: `p69_sitios` reconstruye el ultimo evento por dispositivo desde
+  la bitacora/WAL, para que el dashboard y el detalle no queden vacios tras un reinicio.
+- `rebar3 compile`: OK sin warnings.
+- `rebar3 eunit`: **51 tests, 0 fallos**.
+- Humo HTTP en `18080` sobre `/tmp/p69-ui-smoke`: `/`, `/bitacora.html`, `/nodo.html`,
+  assets, vendor, `/api/salud`, `/api/dispositivos`, `/api/alertas`,
+  `/api/bitacora/verificar` y `/metrics` responden 200; eventos recientes por `POST
+  /api/eventos` se reflejan en `/api/eventos` y en el estado de los dispositivos.
+- Limitacion: no hay navegador/headless instalado, asi que la verificacion fue de API,
+  HTTP y sintaxis JS (`node --check`), no visual. Las capturas reales quedan para el
+  usuario.

@@ -32,7 +32,14 @@ salud_y_estaticos(Ctx) ->
   {200, Salud} = get(Ctx, "/api/salud"),
   ?assertEqual(<<"ok">>, maps:get(<<"estado">>, decodificar(Salud))),
   {200, Index} = get(Ctx, "/"),
-  ?assertNotEqual(nomatch, binary:match(Index, <<"API activa">>)),
+  ?assertNotEqual(nomatch, binary:match(Index, <<"SENTINEL URBANO">>)),
+  ?assertNotEqual(nomatch, binary:match(Index, <<"assets/app.js">>)),
+  {200, Bitacora} = get(Ctx, "/bitacora.html"),
+  ?assertNotEqual(nomatch, binary:match(Bitacora, <<"Bitacora Forense">>)),
+  {200, Nodo} = get(Ctx, "/nodo.html"),
+  ?assertNotEqual(nomatch, binary:match(Nodo, <<"Detalle De Nodo">>)),
+  {200, AppJs} = get(Ctx, "/assets/app.js"),
+  ?assertNotEqual(nomatch, binary:match(AppJs, <<"connectWS">>)),
   {200, Metrics} = get(Ctx, "/metrics"),
   ?assertNotEqual(nomatch, binary:match(Metrics, <<"p69_eventos_total">>)).
 
@@ -50,6 +57,10 @@ alta_busqueda_y_dispositivos(Ctx) ->
   {201, Respuesta} = post(Ctx, "/api/eventos", Evento),
   #{<<"evento">> := Ev} = decodificar(Respuesta),
   ?assertEqual(<<"api-cam-1">>, maps:get(<<"dispositivo_id">>, Ev)),
+  %% El hash interno ya no es vacio: /api/salud debe seguir siendo JSON valido
+  %% aunque el binario del hash tenga bytes que no son UTF-8.
+  {200, SaludTrasEvento} = get(Ctx, "/api/salud"),
+  ?assertEqual(<<"ok">>, maps:get(<<"estado">>, decodificar(SaludTrasEvento))),
   Ruta = io_lib:format("/api/eventos?desde=~p&hasta=~p&edificio=API",
     [T, T + 1000000]),
   {200, ListaBin} = get(Ctx, lists:flatten(Ruta)),

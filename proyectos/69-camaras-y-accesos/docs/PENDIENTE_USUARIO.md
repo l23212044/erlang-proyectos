@@ -2,7 +2,7 @@
 
 Todo lo que requiere intervencion manual del usuario. Se actualiza al final de cada fase.
 
-## Ahora (Fase 3 terminada)
+## Ahora (Fase 5 terminada)
 
 - [ ] Instalar Erlang/rebar3 a nivel sistema. El agente no puede autenticar `sudo` sin TTY.
       Comando en tu terminal:
@@ -12,18 +12,15 @@ Todo lo que requiere intervencion manual del usuario. Se actualiza al final de c
       El proyecto real es `/home/zero/erlang-proyectos/proyectos/69-camaras-y-accesos/`;
       se copio `AGENTS.md` aqui. Puedes borrar el duplicado cuando quieras.
 
-## Fase 3 (API ya estable) - accion inmediata del usuario
+## Fase 5 (UI integrada) - accion del usuario
 
-- [ ] Abrir Google Stitch y pegar el contenido de `design/PROMPT_STITCH.md`.
-      Pedir las 4 pantallas en escritorio y movil: panel en vivo, bitacora,
-      dispositivos y detalle, integridad y salud.
-- [ ] Exportar el zip de Stitch (con `DESIGN.md`) y descomprimirlo dentro de
-      `design/`.
-- [ ] Guardar capturas de pantalla de Stitch para la entrega.
-- [ ] Opcional: probar `http://localhost:8080/` desde el navegador de Windows con
-      el proyecto arrancado para confirmar el acceso.
+- [x] Export de Google Stitch integrado en `priv/www/` (dashboard, bitacora y nodo).
+- [ ] Abrir `http://localhost:8080/` desde el navegador de Windows con la app
+      arrancada y revisar escritorio y movil.
+- [ ] Guardar capturas de pantalla de la **app real** para la entrega.
+- [ ] Reportar cualquier detalle visual que no coincida con el export de Stitch.
 
-Mientras esperas el diseno, puedes probar el simulador y el caos:
+Para probar el backend con carga y caos:
 
 - [ ] `scripts/simular.sh --modo completo --duracion 60` (arranca la app con
       puerto efimero y carga ~1.08M de eventos historicos; tarda unos segundos).
@@ -31,10 +28,8 @@ Mientras esperas el diseno, puedes probar el simulador y el caos:
 - [ ] Detener el servicio/release antes de simular si usa la misma carpeta `data/`
       para no abrir el mismo WAL desde dos nodos.
 
-No hace falta que hagas nada mas para que el agente continue: al recibir el export
-en `design/` se integrara en Fase 5.
-
-## Fase 5 (integracion de la UI)
+Para ver el dashboard con datos frescos, arranca la app y carga eventos recientes;
+los datos historicos muy antiguos aparecen como `falla` por falta de latido.
 
 ## Fase 7 (Manual y entrega)
 

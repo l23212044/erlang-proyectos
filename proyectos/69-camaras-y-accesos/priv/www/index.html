@@ -1,34 +1,207 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>P69 Camaras y accesos</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; color: #1b1b1b; background: #f6f7f9; }
-    main { max-width: 46rem; margin: auto; background: #fff; padding: 1.5rem 2rem; border-radius: 12px; }
-    code { background: #eef1f5; padding: 0.1rem 0.3rem; border-radius: 4px; }
-    .nota { color: #6b5200; background: #fff6d6; padding: 0.8rem; border-radius: 8px; }
-  </style>
+  <title>Sentinel Urbano | Dashboard C4</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <script src="vendor/tailwind.js"></script>
+  <script src="assets/theme.js"></script>
 </head>
-<body>
-<main>
-  <h1>Cámaras y accesos — API activa</h1>
-  <p>Backend Erlang/OTP funcionando. La interfaz final se integrará desde el
-  export de Google Stitch (<code>design/</code>).</p>
-  <p class="nota">Esta página es solo un marcador de posición de la Fase 3; no es
-  la UI final ni fue hecha con Stitch.</p>
-  <h2>Endpoints</h2>
-  <ul>
-    <li><code>GET /api/salud</code></li>
-    <li><code>GET /api/eventos?desde=&amp;hasta=&amp;edificio=&amp;camara=&amp;tipo=&amp;persona=</code></li>
-    <li><code>POST /api/eventos</code></li>
-    <li><code>GET /api/dispositivos</code></li>
-    <li><code>GET /api/alertas</code></li>
-    <li><code>GET /api/bitacora/verificar</code></li>
-    <li><code>GET /metrics</code></li>
-    <li><code>WS /ws/eventos</code></li>
-  </ul>
-</main>
+<body data-page="dashboard" class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen">
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <div class="h-16 px-margin flex items-center justify-between gap-space-sm">
+      <a class="flex items-center gap-space-sm min-w-0" href="index.html">
+        <img alt="Logo Sentinel Urbano" class="h-8 w-8 object-contain flex-shrink-0" src="assets/logo.svg">
+        <div class="flex flex-col min-w-0">
+          <span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight truncate">SENTINEL URBANO</span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">C4 Movil • Nodo Erlang/OTP</span>
+        </div>
+      </a>
+      <div class="flex items-center gap-space-xs flex-shrink-0">
+        <div class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-low" title="Estado del WebSocket">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+          </span>
+          <span class="font-mono-timestamp text-mono-timestamp text-tertiary" id="ws-state">WS...</span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant" id="ws-latency">-- ms</span>
+        </div>
+        <a aria-label="Alertas prioritarias" class="relative w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface" href="bitacora.html?severidad=critico">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          <span class="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold leading-none" id="alert-badge">0</span>
+        </a>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col relative w-full pt-16 pb-20 bg-surface">
+    <div id="page-status" class="mx-margin mt-space-md rounded-xl border border-outline-variant bg-surface-container px-space-md py-space-sm text-on-surface-variant"></div>
+
+    <div class="flex flex-col w-full px-margin pb-space-xl gap-space-lg">
+      <section class="flex flex-col gap-space-xs mt-space-sm">
+        <div class="flex items-center justify-between bg-surface-container-low px-space-md py-space-sm rounded-lg shadow-sm">
+          <div class="flex items-center gap-space-sm min-w-0">
+            <span class="relative flex h-3 w-3 flex-shrink-0">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-tertiary"></span>
+            </span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase truncate">Red Metropolitana C4</span>
+              <span class="font-headline-sm text-headline-sm text-tertiary font-bold tracking-tight truncate" id="system-pct">SISTEMA OPERATIVO --%</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1 bg-surface-container-high px-space-xs py-1 rounded">
+            <span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+            <span class="font-mono-timestamp text-mono-timestamp text-on-surface font-semibold" id="system-seq">SEQ 0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 gap-space-sm">
+        <div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-space-md min-w-0">
+            <div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-[26px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-space-xs">
+                <span class="font-label-caps text-label-caps text-tertiary uppercase font-bold">OK / En Linea</span>
+                <span class="font-mono-timestamp text-mono-timestamp text-tertiary bg-surface-container-high px-1.5 py-0.5 rounded">REAL</span>
+              </div>
+              <div class="flex items-baseline gap-space-xs">
+                <span class="font-stat-lg text-stat-lg text-on-surface" id="kpi-ok">0</span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant truncate">dispositivos activos</span>
+              </div>
+              <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate" id="kpi-ok-sub">0 camaras / 0 puertas</span>
+            </div>
+          </div>
+          <a class="material-symbols-outlined text-on-surface-variant text-[20px]" href="#nodos" title="Ver nodos">chevron_right</a>
+        </div>
+
+        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-space-md min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[26px] text-primary" style="font-variation-settings: 'FILL' 1;">warning</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="font-label-caps text-label-caps text-primary uppercase font-bold">Alerta Operativa</span>
+                <div class="flex items-baseline gap-space-xs">
+                  <span class="font-stat-lg text-stat-lg text-primary" id="kpi-alert">00</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant truncate">nodos con advertencia</span>
+                </div>
+                <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate" id="kpi-alert-detail">Sin eventos de alarma recientes</span>
+              </div>
+            </div>
+            <a class="h-11 px-space-md bg-secondary-container text-on-surface hover:bg-surface-container-high rounded-lg flex items-center gap-1.5 transition-colors flex-shrink-0" href="bitacora.html?severidad=alerta">
+              <span class="font-label-caps text-label-caps font-bold">ATENDER</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-space-md min-w-0">
+              <div class="relative w-12 h-12 rounded-lg bg-error-container flex items-center justify-center flex-shrink-0">
+                <span class="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-error opacity-40"></span>
+                <span class="material-symbols-outlined text-[26px] text-on-error relative" style="font-variation-settings: 'FILL' 1;">error</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <div class="flex items-center gap-space-xs">
+                  <span class="font-label-caps text-label-caps text-error uppercase font-bold">Critico / Offline</span>
+                  <span class="font-mono-timestamp text-mono-timestamp text-on-error bg-error-container px-1.5 py-0.5 rounded font-bold">FALLA</span>
+                </div>
+                <div class="flex items-baseline gap-space-xs">
+                  <span class="font-stat-lg text-stat-lg text-error" id="kpi-fail">00</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant truncate">nodos desconectados</span>
+                </div>
+                <span class="font-mono-timestamp text-mono-timestamp text-error truncate" id="kpi-fail-detail">Enlace de telemetria estable</span>
+              </div>
+            </div>
+            <a class="w-11 h-11 bg-error-container text-on-error rounded-lg flex items-center justify-center flex-shrink-0" href="bitacora.html?severidad=critico" title="Ver fallas criticas">
+              <span class="material-symbols-outlined text-[20px]">build</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-space-xs" id="nodos">
+        <div class="flex items-center justify-between">
+          <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Nodos Criticos</span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant" id="last-update">Sincronizado via API</span>
+        </div>
+        <div class="flex gap-space-xs overflow-x-auto py-1 no-scrollbar -mx-margin px-margin">
+          <button class="node-filter px-space-md h-9 rounded-full bg-primary-container text-on-primary font-body-sm font-semibold whitespace-nowrap flex items-center gap-1 shadow-sm" data-filter="all" type="button">
+            <span>Todos</span>
+            <span class="bg-surface-container-lowest/40 text-on-primary text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold" id="pill-all-count">0</span>
+          </button>
+          <button class="node-filter px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="alert" type="button">
+            <span>En Alerta</span>
+            <span class="bg-secondary-container text-primary text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold" id="pill-alert-count">0</span>
+          </button>
+          <button class="node-filter px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="access" type="button">
+            <span>Accesos</span>
+            <span class="bg-surface-container-lowest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold" id="pill-access-count">0</span>
+          </button>
+          <button class="node-filter px-space-md h-9 rounded-full bg-surface-container-high text-on-surface font-body-sm whitespace-nowrap flex items-center gap-1 hover:bg-surface-bright" data-filter="cams" type="button">
+            <span>Camaras</span>
+            <span class="bg-surface-container-lowest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-mono-timestamp font-bold" id="pill-cams-count">0</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-space-md" id="dashboard-nodes">
+        <div class="bg-surface-container-low rounded-xl p-space-lg skeleton h-48"></div>
+      </section>
+
+      <section class="flex flex-col gap-space-md">
+        <div class="flex items-center justify-between">
+          <span class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-space-xs">
+            <span class="material-symbols-outlined text-primary text-[18px]">bolt</span>
+            Eventos Recientes
+          </span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">Ultima hora</span>
+        </div>
+        <div class="flex flex-col gap-space-xs" id="dashboard-recent">
+          <div class="bg-surface-container-low rounded-lg p-space-md skeleton h-16"></div>
+        </div>
+        <a class="h-12 w-full bg-surface-container-high hover:bg-surface-bright text-primary font-headline-sm text-headline-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors" href="bitacora.html">
+          <span class="material-symbols-outlined text-[20px]">history</span>
+          <span>VER BITACORA COMPLETA &amp; FILTROS</span>
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]">
+    <div class="flex justify-around items-center h-16 px-space-xs">
+      <a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg transition-colors text-primary bg-surface-container-high/60" href="index.html">
+        <span class="material-symbols-outlined text-[20px]">radar</span>
+        <span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+      </a>
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-nav-cams href="#nodos">
+        <span class="material-symbols-outlined text-[20px]">videocam</span>
+        <span class="font-label-caps text-label-caps uppercase">Camaras</span>
+      </a>
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" href="bitacora.html">
+        <span class="material-symbols-outlined text-[20px]">history_edu</span>
+        <span class="font-label-caps text-label-caps uppercase">Bitacora</span>
+      </a>
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-error hover:text-error-container transition-colors relative" href="bitacora.html?severidad=critico">
+        <span class="material-symbols-outlined text-[20px]">warning</span>
+        <span class="font-label-caps text-label-caps uppercase">SOS</span>
+      </a>
+    </div>
+  </nav>
+
+  <div id="toast" class="toast is-hidden rounded-xl border border-outline-variant bg-surface-container-high px-space-md py-space-sm text-on-surface text-body-sm shadow-2xl" role="status" aria-live="polite"></div>
+  <script src="assets/app.js" defer></script>
 </body>
 </html>
