@@ -10,7 +10,7 @@ Bitacora de trabajo para poder retomar la sesion si se corta. Se actualiza al fi
 - Fase 4 (Simulador y caos): **completada** (`rebar3 compile` OK, `rebar3 eunit` 49 pruebas, 0 fallos; caos real con 1,000,000 de eventos y resultados en `docs/CAOS.md`).
 - Fase 5 (UI Stitch integrada): **completada** (`rebar3 compile` OK, `rebar3 eunit` 51 pruebas, 0 fallos; humo HTTP real con datos del WAL).
 - Fase 6 (Release y systemd): **completada** (release prod construido y probado; unidad systemd y script de instalacion listos). Falta verificacion con `sudo` en la VM.
-- Fase 7 (Manual y demo): **material listo**; faltan capturas reales y publicar el Gist.
+- Fase 7 (Manual y demo): **completada** (manual, guion, diseno OTP, supuestos y evidencias en `Evidencias/`). Faltan la publicacion del Gist y la prueba de systemd con `sudo`.
 
 ## Entorno verificado
 
@@ -70,7 +70,7 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 
 - Instalar Erlang/rebar3 con `apt` a nivel sistema cuando haya TTY/sudo (necesario para
   desplegar el servicio systemd con rutas estandar; el release puede incluir su propio ERTS).
-- Capturas reales de la app y publicacion del Gist (requieren accion del usuario).
+- Publicacion del Gist (requiere accion del usuario).
 - Verificacion visual en navegador real (el agente no tiene navegador/headless en esta maquina).
 - Instalar y probar el servicio systemd con `sudo` en la VM.
 
@@ -202,4 +202,8 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - `docs/GUION_DEMO.md`: guion de ~10 min y preguntas probables.
 - `scripts/demo.sh`: release local limpio, historico reciente y flujo en vivo;
   probado en el puerto `18082` (300 dispositivos, salud `ok`, `seq > 5000`).
-- Pendiente del usuario: capturas reales y publicar el Gist. No se publico nada.
+- Evidencias de la app real integradas desde `Evidencias/` (`Evidencia.md`,
+  `Evidencias/Capturas.md`, `Evidencias/Pruebas_backend.md`).
+- El usuario verifico la app en ejecucion; las capturas quedaron referenciadas
+  en el manual y el guion.
+- Pendiente del usuario: publicar el Gist. No se publico nada.

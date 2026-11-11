@@ -4,8 +4,8 @@ Sistema de bitacora de eventos de camaras y controles de acceso. Permite
 recibir eventos, buscarlos por rango de tiempo y filtros, ver el estado de los
 nodos en tiempo real y verificar que la bitacora no fue alterada.
 
-> Este documento esta pensado para publicarse como Gist. Las capturas se marcan
-> con `<!-- CAPTURA: ... -->` porque deben tomarse de la app real.
+> Este documento esta pensado para publicarse como Gist. Las capturas de la app
+> real estan enlazadas desde la carpeta `Evidencias/`.
 
 ## 1. Que hace el sistema
 
@@ -79,9 +79,13 @@ El puerto por defecto es `8080`.
 
 Si la VM es WSL2, abre esas direcciones desde el navegador de Windows.
 
-<!-- CAPTURA: dashboard con datos en vivo -->
-<!-- CAPTURA: bitacora con filtros y rango de tiempo -->
-<!-- CAPTURA: detalle de nodo con telemetria -->
+Evidencias de la app real:
+
+- <https://github.com/l23212044/erlang-proyectos/tree/main/proyectos/69-camaras-y-accesos/Evidencias>
+
+![Captura de la app 1](https://github.com/user-attachments/assets/13f97931-a7f3-4fe3-a14a-3ff24e49d889)
+
+![Captura de la app 2](https://github.com/user-attachments/assets/a65ea5cc-4939-4e0b-b1eb-d293eea4ded1)
 
 ## 6. Recorrido de la UI
 
@@ -213,11 +217,13 @@ reciente o ajusta `retencion_dias`.
 El release usa la cookie de `config/vm.args`. No la cambies entre arranques si
 necesitas `remote_console`; para produccion genera una nueva antes de desplegar.
 
-## 11. Capturas necesarias para la entrega
+## 11. Capturas y evidencias
 
-1. Dashboard con datos en vivo y WebSocket en linea.
-2. Bitacora con filtros y rango personalizado.
-3. Detalle de un nodo con telemetria.
-4. Resultado de `/api/bitacora/verificar` en la UI.
-5. Pantalla de Google Stitch original (para comparar el diseno).
-6. Servicio activo en systemd (`systemctl status`).
+Las capturas de la app real estan en:
+
+- `Evidencias/Pruebas_backend.md`
+- `Evidencias/Capturas.md`
+
+Para la entrega se usaron capturas de dashboard, bitacora, detalle de nodo,
+verificacion de integridad y pruebas de backend. Las pantallas originales de
+Google Stitch estan en `design/stitch_sistema_de_seguridad_ciudadana/`.

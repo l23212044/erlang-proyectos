@@ -27,7 +27,7 @@ retencion y caos) usando la app real. No se usan capturas ni datos inventados.
    - `http://localhost:8080/nodo.html`
    - terminal con `journalctl -u p69-camaras-y-accesos -f` o `tail -f /tmp/p69-demo.log`
 
-<!-- CAPTURA: preparacion de la demo con scripts/demo.sh -->
+Evidencia de la preparacion: `Evidencias/Pruebas_backend.md`.
 
 ## 0:00 — Contexto (1 min)
 
@@ -45,7 +45,7 @@ en un edificio, sin perder eventos y demostrando que la bitacora no se altero."
    - Eventos recientes.
 3. Esperar unos segundos: el WebSocket actualiza el panel sin recargar.
 
-<!-- CAPTURA: dashboard en vivo con WebSocket conectado -->
+Evidencia del dashboard: `Evidencias/Capturas.md`.
 
 ## 3:00 — Busqueda por rango y filtros (2 min)
 
@@ -56,7 +56,7 @@ en un edificio, sin perder eventos y demostrando que la bitacora no se altero."
    sobre los eventos ya cargados.
 5. Exportar CSV y copiar un hash.
 
-<!-- CAPTURA: bitacora filtrada por edificio y severidad -->
+Evidencia de la bitacora: `Evidencias/Capturas.md`.
 
 ## 5:00 — Detalle de nodo y reloj desfasado (1.5 min)
 
@@ -66,7 +66,7 @@ en un edificio, sin perder eventos y demostrando que la bitacora no se altero."
 3. Explicar: se guarda `ts_evento` crudo y `ts_corregido`; la busqueda usa el
    corregido.
 
-<!-- CAPTURA: detalle de camara-017 con offset de reloj -->
+Evidencia del detalle de nodo: `Evidencias/Capturas.md`.
 
 ## 6:30 — Integridad SHA-256 (1 min)
 

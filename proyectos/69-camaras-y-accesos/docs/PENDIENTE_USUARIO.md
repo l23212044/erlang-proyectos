@@ -2,7 +2,7 @@
 
 Todo lo que requiere intervencion manual del usuario. Se actualiza al final de cada fase.
 
-## Ahora (Fase 7 con material listo)
+## Ahora (documentacion terminada)
 
 - [ ] Instalar Erlang/rebar3 a nivel sistema. El agente no puede autenticar `sudo` sin TTY.
       Comando en tu terminal:
@@ -15,9 +15,8 @@ Todo lo que requiere intervencion manual del usuario. Se actualiza al final de c
 ## Fase 5 (UI integrada) - accion del usuario
 
 - [x] Export de Google Stitch integrado en `priv/www/` (dashboard, bitacora y nodo).
-- [ ] Abrir `http://localhost:8080/` desde el navegador de Windows con la app
-      arrancada y revisar escritorio y movil.
-- [ ] Guardar capturas de pantalla de la **app real** para la entrega.
+- [x] Abrir la app arrancada y revisar escritorio y movil.
+- [x] Guardar capturas de la **app real** en `Evidencias/`.
 - [ ] Reportar cualquier detalle visual que no coincida con el export de Stitch.
 
 ## Fase 6 (release y systemd) - accion del usuario
@@ -43,8 +42,9 @@ los datos historicos muy antiguos aparecen como `falla` por falta de latido.
 
 ## Fase 7 (Manual y entrega)
 
-- [ ] Revisar `docs/MANUAL_GIST.md` y quitar/cambiar lo que no aplique.
-- [ ] Tomar las capturas marcadas en `docs/MANUAL_GIST.md` y `docs/GUION_DEMO.md`.
+- [x] `docs/MANUAL_GIST.md`, `docs/GUION_DEMO.md`, `docs/DISENO_OTP.md` y
+      `docs/SUPUESTOS.md` listos.
+- [x] Capturas reales en `Evidencias/`.
 - [ ] Publicar `docs/MANUAL_GIST.md` como Gist (no se publico nada).
 - [ ] Ensayar la demo con `docs/GUION_DEMO.md` y `scripts/demo.sh --limpiar`.
 - [ ] Opcional: correr `scripts/caos.sh --eventos 1000000` antes de la demo.

@@ -69,6 +69,7 @@ El guion completo esta en [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md).
 - [`docs/SUPUESTOS.md`](docs/SUPUESTOS.md): supuestos y cifras verificadas.
 - [`docs/CAOS.md`](docs/CAOS.md): mediciones reales de carga y caos.
 - [`docs/PENDIENTE_USUARIO.md`](docs/PENDIENTE_USUARIO.md): acciones manuales.
+- [`Evidencias/`](Evidencias/): capturas de la app real.
 - [`design/PROMPT_STITCH.md`](design/PROMPT_STITCH.md): prompt de UI.
 
 ## Arquitectura OTP
