@@ -221,5 +221,6 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
   evidencia local.
 - Manual publicado como Gist publico:
   <https://gist.github.com/l23212044/cc994c1249fe2d3e1e3f57f113c54070>.
-- Pendiente del usuario: hacer `git push` de las capturas y evidencia nuevas;
-  el Gist ya esta publicado y usa capturas remotas existentes.
+- Evidencia publicada en `origin/main` (commit `e4701ea`); los enlaces raw de
+  `Evidencias/README.md`, `Evidencias/pruebas/api.md` y las capturas responden
+  200. El Gist ya esta publicado.
