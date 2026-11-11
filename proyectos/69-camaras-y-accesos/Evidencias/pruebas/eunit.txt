@@ -1,0 +1,37 @@
+# Evidencia de pruebas backend
+
+Fecha: 2026-11-11T07:03:19Z
+Entorno: OTP 27, Ubuntu/WSL2
+
+```text
+$ rebar3 compile
+===> Verifying dependencies...
+===> Analyzing applications...
+===> Compiling p69_camaras_y_accesos
+
+$ rebar3 eunit
+===> Verifying dependencies...
+===> Analyzing applications...
+===> Compiling p69_camaras_y_accesos
+===> Performing EUnit tests...
+.......=INFO REPORT==== 10-Nov-2026::23:03:21.276159 ===
+    application: inets
+    exited: stopped
+    type: temporary
+
+........................................=SUPERVISOR REPORT==== 10-Nov-2026::23:03:22.473453 ===
+    supervisor: {local,p69_sitios_sup}
+    errorContext: child_terminated
+    reason: killed
+    offender: [{pid,<0.521.0>},
+               {id,{p69_sitio_sup,<<"J">>}},
+               {mfargs,{p69_sitio_sup,start_link,[<<"J">>]}},
+               {restart_type,permanent},
+               {significant,false},
+               {shutdown,infinity},
+               {child_type,supervisor}]
+
+....
+Finished in 1.480 seconds
+51 tests, 0 failures
+```

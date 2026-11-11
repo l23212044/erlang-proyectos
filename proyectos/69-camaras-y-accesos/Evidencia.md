@@ -1,10 +1,11 @@
 # Evidencias
 
-La evidencia visual de la app real esta en la carpeta [`Evidencias/`](Evidencias/):
+Indice completo: [`Evidencias/README.md`](Evidencias/README.md).
 
-- [`Evidencias/Pruebas_backend.md`](Evidencias/Pruebas_backend.md): capturas de la app y pruebas.
+- [`Evidencias/Pruebas_backend.md`](Evidencias/Pruebas_backend.md): pruebas reales de compilacion, eunit y API.
 - [`Evidencias/Capturas.md`](Evidencias/Capturas.md): capturas de la interfaz.
+- [`docs/CAOS.md`](docs/CAOS.md): resultados medidos de la prueba de caos.
 
-<img width="1925" height="624" alt="Evidencia 1" src="https://github.com/user-attachments/assets/13f97931-a7f3-4fe3-a14a-3ff24e49d889" />
+![Dashboard](Evidencias/capturas/dashboard.png)
 
-<img width="3050" height="1219" alt="Evidencia 2" src="https://github.com/user-attachments/assets/a65ea5cc-4939-4e0b-b1eb-d293eea4ded1" />
+![Bitacora](Evidencias/capturas/bitacora.png)

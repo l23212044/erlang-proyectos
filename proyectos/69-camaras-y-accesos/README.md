@@ -65,11 +65,12 @@ El guion completo esta en [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md).
 - [`docs/DISENO_OTP.md`](docs/DISENO_OTP.md): procesos, supervisores y casos dificiles.
 - [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md): release, systemd y operacion.
 - [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md): guion cronometrado y preguntas.
-- [`docs/MANUAL_GIST.md`](docs/MANUAL_GIST.md): manual para el cliente (Gist).
+- [`docs/MANUAL_GIST.md`](docs/MANUAL_GIST.md): manual para el cliente.
+  Publicado en <https://gist.github.com/l23212044/cc994c1249fe2d3e1e3f57f113c54070>.
 - [`docs/SUPUESTOS.md`](docs/SUPUESTOS.md): supuestos y cifras verificadas.
 - [`docs/CAOS.md`](docs/CAOS.md): mediciones reales de carga y caos.
 - [`docs/PENDIENTE_USUARIO.md`](docs/PENDIENTE_USUARIO.md): acciones manuales.
-- [`Evidencias/`](Evidencias/): capturas de la app real.
+- [`Evidencias/`](Evidencias/): indice de capturas y pruebas de la app real.
 - [`design/PROMPT_STITCH.md`](design/PROMPT_STITCH.md): prompt de UI.
 
 ## Arquitectura OTP

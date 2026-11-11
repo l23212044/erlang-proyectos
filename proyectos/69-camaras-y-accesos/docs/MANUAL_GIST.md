@@ -79,9 +79,10 @@ El puerto por defecto es `8080`.
 
 Si la VM es WSL2, abre esas direcciones desde el navegador de Windows.
 
-Evidencias de la app real:
+Evidencias de la app real (release y UI):
 
-- <https://github.com/l23212044/erlang-proyectos/tree/main/proyectos/69-camaras-y-accesos/Evidencias>
+- Indice: <https://github.com/l23212044/erlang-proyectos/blob/main/proyectos/69-camaras-y-accesos/Evidencias/README.md>
+- Capturas: <https://github.com/l23212044/erlang-proyectos/tree/main/proyectos/69-camaras-y-accesos/Evidencias/capturas>
 
 ![Captura de la app 1](https://github.com/user-attachments/assets/13f97931-a7f3-4fe3-a14a-3ff24e49d889)
 
@@ -219,11 +220,18 @@ necesitas `remote_console`; para produccion genera una nueva antes de desplegar.
 
 ## 11. Capturas y evidencias
 
-Las capturas de la app real estan en:
+La evidencia completa esta en `Evidencias/README.md`:
 
-- `Evidencias/Pruebas_backend.md`
-- `Evidencias/Capturas.md`
+- Capturas locales: `Evidencias/capturas/dashboard.png`,
+  `Evidencias/capturas/bitacora.png`,
+  `Evidencias/capturas/bitacora-camara-017.png` y
+  `Evidencias/capturas/nodo-camara-017.png`.
+- Pruebas de compilacion y eunit: `Evidencias/pruebas/eunit.txt` (51 pruebas,
+  0 fallos).
+- Respuestas reales de API: `Evidencias/pruebas/api.md`.
+- Prueba de caos: `docs/CAOS.md`.
 
-Para la entrega se usaron capturas de dashboard, bitacora, detalle de nodo,
-verificacion de integridad y pruebas de backend. Las pantallas originales de
-Google Stitch estan en `design/stitch_sistema_de_seguridad_ciudadana/`.
+Las capturas se tomaron del release real con `scripts/demo.sh --limpiar`. El
+detalle de `camara-017` muestra el reloj desfasado 240 s inyectado por el
+simulador. Las pantallas originales de Google Stitch estan en
+`design/stitch_sistema_de_seguridad_ciudadana/`.

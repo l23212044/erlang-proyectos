@@ -45,6 +45,9 @@ los datos historicos muy antiguos aparecen como `falla` por falta de latido.
 - [x] `docs/MANUAL_GIST.md`, `docs/GUION_DEMO.md`, `docs/DISENO_OTP.md` y
       `docs/SUPUESTOS.md` listos.
 - [x] Capturas reales en `Evidencias/`.
-- [ ] Publicar `docs/MANUAL_GIST.md` como Gist (no se publico nada).
+- [x] Publicar `docs/MANUAL_GIST.md` como Gist:
+      <https://gist.github.com/l23212044/cc994c1249fe2d3e1e3f57f113c54070>.
+- [ ] Hacer `git push` para publicar las capturas y pruebas nuevas de `Evidencias/`.
+      El Gist ya esta publicado; sus imagenes remotas actuales no dependen de este push.
 - [ ] Ensayar la demo con `docs/GUION_DEMO.md` y `scripts/demo.sh --limpiar`.
 - [ ] Opcional: correr `scripts/caos.sh --eventos 1000000` antes de la demo.

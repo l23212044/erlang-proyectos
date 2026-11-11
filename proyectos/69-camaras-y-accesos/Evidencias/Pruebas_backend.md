@@ -1,8 +1,12 @@
 # Evidencia de backend
 
-Capturas de la app real en ejecucion (pruebas de API y UI). Las imagenes estan
-alojadas por GitHub.
+Pruebas ejecutadas contra el release real, no contra mocks.
 
-<img width="1925" height="624" alt="Prueba de backend 1" src="https://github.com/user-attachments/assets/13f97931-a7f3-4fe3-a14a-3ff24e49d889" />
+- [`pruebas/eunit.txt`](pruebas/eunit.txt): `rebar3 compile` y `rebar3 eunit`
+  (51 pruebas, 0 fallos).
+- [`pruebas/api.md`](pruebas/api.md): release en ejecucion y respuestas reales
+  de salud, dispositivos, eventos, verificacion de integridad y metricas.
+- [`../docs/CAOS.md`](../docs/CAOS.md): prueba de caos con 1,000,000 de eventos y
+  recuperacion tras fallos inducidos.
 
-<img width="3050" height="1219" alt="Prueba de backend 2" src="https://github.com/user-attachments/assets/a65ea5cc-4939-4e0b-b1eb-d293eea4ded1" />
+Capturas de la UI en [`Capturas.md`](Capturas.md).

@@ -206,4 +206,20 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
   `Evidencias/Capturas.md`, `Evidencias/Pruebas_backend.md`).
 - El usuario verifico la app en ejecucion; las capturas quedaron referenciadas
   en el manual y el guion.
-- Pendiente del usuario: publicar el Gist. No se publico nada.
+
+### Fase 8 - Evidencia local y Gist
+
+- Capturas reales guardadas en `Evidencias/capturas/`: dashboard, bitacora,
+  bitacora filtrada por `camara-017` y detalle del nodo con offset de 240 s.
+- `Evidencias/pruebas/eunit.txt`: salida de `rebar3 compile` y `rebar3 eunit`
+  (51 pruebas, 0 fallos).
+- `Evidencias/pruebas/api.md`: release en ejecucion y respuestas reales de
+  `/api/salud`, `/api/dispositivos`, `/api/eventos`,
+  `/api/bitacora/verificar` y `/metrics`.
+- `Evidencias/README.md`: indice de capturas y pruebas. `Evidencia.md`,
+  `Evidencias/Capturas.md` y `Evidencias/Pruebas_backend.md` apuntan a la
+  evidencia local.
+- Manual publicado como Gist publico:
+  <https://gist.github.com/l23212044/cc994c1249fe2d3e1e3f57f113c54070>.
+- Pendiente del usuario: hacer `git push` de las capturas y evidencia nuevas;
+  el Gist ya esta publicado y usa capturas remotas existentes.
