@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bitacora forense | Sentinel Urbano</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <script src="vendor/tailwind.js"></script>
+  <script src="assets/theme.js"></script>
+</head>
+<body data-page="bitacora" class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen">
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <div class="h-16 px-margin flex items-center justify-between gap-space-sm">
+      <a class="flex items-center gap-space-sm min-w-0" href="index.html">
+        <img alt="Logo Sentinel Urbano" class="h-8 w-8 object-contain flex-shrink-0" src="assets/logo.svg">
+        <div class="flex flex-col min-w-0">
+          <span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight truncate">SENTINEL URBANO</span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant truncate">C4 Movil • Nodo Erlang/OTP</span>
+        </div>
+      </a>
+      <div class="flex items-center gap-space-xs flex-shrink-0">
+        <div class="flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-low" title="Estado del WebSocket">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+          </span>
+          <span class="font-mono-timestamp text-mono-timestamp text-tertiary" id="ws-state">WS...</span>
+          <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant" id="ws-latency">-- ms</span>
+        </div>
+        <a aria-label="Alertas prioritarias" class="relative w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface" href="bitacora.html?severidad=critico">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          <span class="absolute top-1.5 right-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold leading-none" id="alert-badge">0</span>
+        </a>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col relative w-full pt-16 pb-20 bg-surface">
+    <div id="page-status" class="mx-margin mt-space-md rounded-xl border border-outline-variant bg-surface-container px-space-md py-space-sm text-on-surface-variant"></div>
+
+    <section class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-md bg-surface-container-low shadow-sm">
+      <div class="flex items-center justify-between gap-space-sm bg-surface-container px-space-md py-space-sm rounded-lg">
+        <div class="flex items-center gap-space-sm min-w-0">
+          <span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0">date_range</span>
+          <div class="flex flex-col min-w-0">
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Rango Activo Auditado</span>
+            <span class="font-mono-timestamp text-mono-timestamp text-on-surface truncate" id="range-label">--</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high flex-shrink-0">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+          </span>
+          <span class="font-mono-timestamp text-mono-timestamp text-tertiary uppercase">En Linea</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+        <button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" data-preset="15m" type="button">-15m</button>
+        <button class="preset-pill px-space-md py-1.5 rounded-full bg-primary-container text-on-primary font-mono-code text-mono-code font-bold active:scale-95 transition-all whitespace-nowrap shadow-sm" data-preset="1h" type="button">-1h</button>
+        <button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" data-preset="8h" type="button">Turno (8h)</button>
+        <button class="preset-pill px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-mono-code text-mono-code hover:text-on-surface hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" data-preset="hoy" type="button">Hoy</button>
+        <button class="preset-pill flex items-center gap-1 px-space-md py-1.5 rounded-full bg-surface-container text-primary font-mono-code text-mono-code hover:bg-surface-container-high active:scale-95 transition-all whitespace-nowrap" id="toggle-custom-range" type="button">
+          <span class="material-symbols-outlined text-[15px]">tune</span>
+          <span>Personalizado</span>
+        </button>
+      </div>
+
+      <div class="is-hidden flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl transition-all" id="custom-range-panel">
+        <div class="grid grid-cols-2 gap-space-sm">
+          <div class="flex flex-col gap-1 min-w-0">
+            <label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="range-desde">Desde</label>
+            <div class="flex items-center gap-2 bg-surface-container px-space-sm py-2 rounded-lg text-on-surface focus-within:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+              <input class="w-full bg-transparent font-mono-timestamp text-mono-timestamp text-on-surface outline-none" id="range-desde" type="datetime-local">
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 min-w-0">
+            <label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="range-hasta">Hasta</label>
+            <div class="flex items-center gap-2 bg-surface-container px-space-sm py-2 rounded-lg text-on-surface focus-within:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+              <input class="w-full bg-transparent font-mono-timestamp text-mono-timestamp text-on-surface outline-none" id="range-hasta" type="datetime-local">
+            </div>
+          </div>
+        </div>
+        <button class="w-full h-10 mt-1 flex items-center justify-center gap-2 bg-surface-container-high text-primary hover:bg-primary-container hover:text-on-primary rounded-lg font-headline-sm text-headline-sm transition-all active:scale-[0.98]" id="apply-range" type="button">
+          <span class="material-symbols-outlined text-[18px]">filter_alt</span>
+          <span>Aplicar Intervalo</span>
+        </button>
+      </div>
+
+      <div class="relative w-full">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </div>
+        <input class="w-full h-12 pl-10 pr-10 bg-surface-container text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md rounded-xl outline-none focus:bg-surface-container-high transition-all shadow-inner" id="bitacora-search" placeholder="Buscar por ID camara, edificio, persona o hash..." type="search">
+        <button aria-label="Limpiar busqueda" class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-on-surface" id="clear-search" type="button">
+          <span class="material-symbols-outlined text-[18px]">cancel</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="px-margin py-space-md flex flex-col gap-space-sm bg-surface">
+      <div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+        <button class="filter-severity flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase active:scale-95 transition-all whitespace-nowrap shadow-sm ring-1 ring-primary" data-severidad="todos" type="button">
+          <span>Todos</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-mono-timestamp text-mono-timestamp" id="sev-all-count">0</span>
+        </button>
+        <button class="filter-severity opacity-60 flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps uppercase hover:bg-tertiary-container/50 active:scale-95 transition-all whitespace-nowrap" data-severidad="ok" type="button">
+          <span class="material-symbols-outlined text-[14px]">check_circle</span>
+          <span>Exitosos</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-mono-timestamp text-mono-timestamp font-bold" id="sev-ok-count">0</span>
+        </button>
+        <button class="filter-severity opacity-60 flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-secondary-container/60 text-secondary-fixed font-label-caps text-label-caps uppercase hover:bg-secondary-container active:scale-95 transition-all whitespace-nowrap" data-severidad="alerta" type="button">
+          <span class="material-symbols-outlined text-[14px]">warning</span>
+          <span>Alertas</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-secondary font-mono-timestamp text-mono-timestamp font-bold" id="sev-alert-count">0</span>
+        </button>
+        <button class="filter-severity opacity-60 flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-error-container/40 text-error font-label-caps text-label-caps uppercase hover:bg-error-container/70 active:scale-95 transition-all whitespace-nowrap" data-severidad="critico" type="button">
+          <span class="material-symbols-outlined text-[14px]">error</span>
+          <span>Criticos</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-error-container text-on-error font-mono-timestamp text-mono-timestamp font-bold" id="sev-crit-count">0</span>
+        </button>
+      </div>
+      <div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin no-scrollbar">
+        <span class="font-label-caps text-label-caps text-on-surface-variant uppercase flex-shrink-0 self-center pl-1 pr-1">Tipo:</span>
+        <button class="filter-tipo px-3 py-1 rounded bg-surface-container-high text-primary font-body-sm text-body-sm font-semibold whitespace-nowrap" data-tipo="todos" type="button">Todos</button>
+        <button class="filter-tipo px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" data-tipo="puerta" type="button">Accesos &amp; Portones</button>
+        <button class="filter-tipo px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" data-tipo="camara" type="button">Camaras &amp; IA</button>
+        <button class="filter-tipo px-3 py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm whitespace-nowrap" data-tipo="fallos" type="button">Fallos Red Erlang</button>
+      </div>
+    </section>
+
+    <section class="px-margin flex flex-col gap-space-md pb-space-xl">
+      <div class="flex items-center justify-between pt-space-xs">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-on-surface-variant text-[18px]">manage_search</span>
+          <span class="font-headline-sm text-headline-sm text-on-surface">Bitacora Forense C4</span>
+        </div>
+        <span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant" id="hash-status">SHA-256 ...</span>
+      </div>
+      <div class="flex flex-col gap-space-md" id="bitacora-events">
+        <div class="bg-surface-container rounded-xl p-space-lg skeleton h-40"></div>
+        <div class="bg-surface-container rounded-xl p-space-lg skeleton h-40"></div>
+      </div>
+    </section>
+
+    <section class="sticky bottom-16 z-30 px-margin py-space-sm bg-surface-container-lowest/95 backdrop-blur-md flex flex-col gap-space-xs shadow-[0_-4px_16px_rgba(0,0,0,0.4)]">
+      <div class="flex items-center justify-between gap-space-sm">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="material-symbols-outlined text-primary text-[16px]">filter_list</span>
+          <span class="font-body-sm text-body-sm text-on-surface font-medium truncate" id="footer-count">Mostrando 0 eventos</span>
+        </div>
+        <span class="font-mono-timestamp text-mono-timestamp text-tertiary flex-shrink-0">Hash Ring: OK</span>
+      </div>
+      <button class="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-bright active:scale-[0.98] transition-all font-headline-sm text-headline-sm font-semibold shadow-md" id="download-csv" type="button">
+        <span class="material-symbols-outlined text-primary text-[20px]">download</span>
+        <span>Descargar CSV de Bitacora</span>
+      </button>
+    </section>
+  </main>
+
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]">
+    <div class="flex justify-around items-center h-16 px-space-xs">
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" href="index.html">
+        <span class="material-symbols-outlined text-[20px]">radar</span>
+        <span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+      </a>
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" href="index.html#nodos">
+        <span class="material-symbols-outlined text-[20px]">videocam</span>
+        <span class="font-label-caps text-label-caps uppercase">Camaras</span>
+      </a>
+      <a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg transition-colors text-primary bg-surface-container-high/60" href="bitacora.html">
+        <span class="material-symbols-outlined text-[20px]">history_edu</span>
+        <span class="font-label-caps text-label-caps uppercase">Bitacora</span>
+      </a>
+      <a class="flex flex-col items-center justify-center gap-0.5 min-w-[64px] h-12 rounded-lg text-error hover:text-error-container transition-colors relative" href="bitacora.html?severidad=critico">
+        <span class="material-symbols-outlined text-[20px]">warning</span>
+        <span class="font-label-caps text-label-caps uppercase">SOS</span>
+      </a>
+    </div>
+  </nav>
+
+  <div id="toast" class="toast is-hidden rounded-xl border border-outline-variant bg-surface-container-high px-space-md py-space-sm text-on-surface text-body-sm shadow-2xl" role="status" aria-live="polite"></div>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
