@@ -129,6 +129,7 @@ evento(Ev) ->
     <<"ts_recepcion_iso">> => iso(maps:get(ts_recepcion, Ev)),
     <<"offset_reloj">> => maps:get(offset_reloj, Ev, 0),
     <<"desfasado">> => maps:get(desfasado, Ev, false),
+    <<"tardio">> => maps:get(tardio, Ev, false),
     <<"hash_prev">> => hex(maps:get(hash_prev, Ev, <<>>)),
     <<"hash">> => hex(maps:get(hash, Ev, <<>>))
   }.

@@ -8,7 +8,7 @@ iniciar() ->
   p69_test_util:config(datos_dir, Dir),
   p69_test_util:config(segmento_segundos, ?SEG),
   p69_test_util:config(retencion_dias, 0),
-  p69_test_util:config(umbral_reloj_seg, 60),
+  p69_test_util:config(reloj_alerta_seg, 60),
   p69_test_util:config(reloj_max_muestras, 5),
   {ok, Pid} = p69_bitacora:start_link(),
   #{dir => Dir, pid => Pid}.

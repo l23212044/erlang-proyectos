@@ -447,7 +447,8 @@ iniciar_app(Datos) ->
   application:set_env(p69_camaras_y_accesos, num_aceptores, 5),
   application:set_env(p69_camaras_y_accesos, retencion_dias, 0),
   application:set_env(p69_camaras_y_accesos, segmento_segundos, 3600),
-  application:set_env(p69_camaras_y_accesos, dispositivo_timeout_seg, 120),
+  application:set_env(p69_camaras_y_accesos, dispositivo_alerta_seg, 60),
+  application:set_env(p69_camaras_y_accesos, dispositivo_falla_seg, 180),
   case application:ensure_all_started(p69_camaras_y_accesos) of
     {ok, _} -> ok;
     {error, Motivo} -> erlang:error({app_no_arranca, Motivo})

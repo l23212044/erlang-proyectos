@@ -162,8 +162,10 @@ periodico y cada evento nuevo. El cliente puede enviar `ping` y recibe `pong`.
 ## 8. Colores y estados
 
 - **OK / verde**: el nodo reporta latido reciente y sin alarmas.
-- **ALERTA / ambar**: alarma o reloj desfasado.
-- **FALLA / rojo**: sin latido dentro de `dispositivo_timeout_seg` (120 s).
+- **ALERTA / ambar**: alarma, reloj desfasado (`reloj_alerta_seg`) o silencio
+  mayor que `dispositivo_alerta_seg` (60 s).
+- **FALLA / rojo**: sin latido dentro de `dispositivo_falla_seg` (180 s) o
+  desfase mayor que `reloj_falla_seg` (300 s).
 - **ACTIVIDAD**: evento informativo (movimiento, acceso, puerta abierta).
 
 ## 9. Retencion

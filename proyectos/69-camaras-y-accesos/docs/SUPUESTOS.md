@@ -8,14 +8,44 @@
 - `persona` es opcional; la demo no implementa anonimizacion ni cifrado de datos
   personales.
 - La retencion por defecto es de **30 dias**; es configurable en `sys.config`.
-- Un dispositivo pasa a `falla` si no hay latido en `dispositivo_timeout_seg`
-  (120 s por defecto).
-- El reloj se considera desfasado si supera `umbral_reloj_seg` (60 s).
+  Con `modo_demo=true` el borrado usa `retencion_demo_seg` (ver umbrales abajo);
+  `retencion_dias=0` sigue desactivando la retencion.
+- Un dispositivo pasa a `alerta` si no hay latido en `dispositivo_alerta_seg` y
+  a `falla` en `dispositivo_falla_seg`.
+- El reloj se considera desfasado si supera `reloj_alerta_seg`; un desfase mayor
+  que `reloj_falla_seg` marca el dispositivo en `falla`.
 - La bitacora prioriza no perder eventos sobre la disponibilidad: si la cola
   crece demasiado responde 429 en vez de descartar.
 - El WAL es append-only y no se trunca en esta version.
 - No hay API de control fisico, apertura remota ni PTZ; la UI no simula esas
   acciones.
+
+## Umbrales de alerta (supuestos propios, no verificados)
+
+Todos viven en `config/sys.config` y se leen con `p69_config:get/2`; no hay
+numeros magicos en el codigo. Son **supuestos propios de esta demo** y no se
+verificaron contra fuentes externas:
+
+| Clave | Valor inicial | Significado |
+|---|---|---|
+| `dispositivo_alerta_seg` | 60 | silencio que marca el dispositivo en `alerta` |
+| `dispositivo_falla_seg` | 180 | silencio que marca el dispositivo en `falla` |
+| `reloj_alerta_seg` | 30 | desfase que marca el evento como `desfasado` |
+| `reloj_falla_seg` | 300 | desfase que marca el dispositivo en `falla` |
+| `evento_tardio_seg` | 300 | retraso de llegada que marca el evento como `tardio` |
+| `ingesta_max_cola` | 20000 | tamano maximo de la cola de ingesta |
+| `ingesta_umbral_aviso` | 10000 | aviso al 50 % de la cola maxima |
+| `ingesta_umbral_429` | 18000 | respuesta 429 al 90 % de la cola maxima |
+| `mensajes_pendientes_max` | 10000 | mensajes en cola de un suscriptor antes de omitirle eventos |
+| `retencion_demo_seg` | 600 | retencion de 10 minutos cuando `modo_demo=true` |
+
+Estos valores sustituyen a `dispositivo_timeout_seg` (120 s) y
+`umbral_reloj_seg` (60 s), que se retiraron para no tener dos fuentes de verdad.
+
+Nota sobre `gemelo/`: el gemelo en SWI-Prolog no define estos umbrales de alerta;
+`gemelo/CONTEXTO_AGENTES.md` deja que el estudiante los fije. Las ventanas del
+reglamento del gemelo (retencion de 1 ano / 90 dias, consultas de 1 / 30 dias)
+pertenecen a otra capa y no modifican estos valores.
 
 ## Cifras del enunciado
 

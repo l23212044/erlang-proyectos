@@ -41,7 +41,8 @@ handle_call(_Msg, _From, Estado) ->
 handle_cast({evento, Ev}, Estado) ->
   TipoEvento = maps:get(tipo_evento, Ev),
   Desfasado = maps:get(desfasado, Ev, false),
-  NuevoEstado = estado_por_evento(TipoEvento, Desfasado),
+  Offset = maps:get(offset_reloj, Ev, 0),
+  NuevoEstado = estado_por_evento(TipoEvento, Desfasado, reloj_en_falla(Offset)),
   Contadores = maps:update_with(TipoEvento, fun(N) -> N + 1 end, 1, maps:get(contadores, Estado)),
   Recientes = lists:sublist([Ev | maps:get(recientes, Estado)], ?MAX_RECIENTES),
   {noreply, Estado#{
@@ -60,18 +61,29 @@ handle_cast(_Msg, Estado) ->
 handle_info(_Info, Estado) ->
   {noreply, Estado}.
 
-estado_por_evento(<<"offline">>, _Desfasado) -> falla;
-estado_por_evento(<<"alarma">>, _Desfasado) -> alerta;
-estado_por_evento(_Tipo, true) -> alerta;
-estado_por_evento(_Tipo, false) -> ok.
+estado_por_evento(<<"offline">>, _Desfasado, _FallaReloj) -> falla;
+estado_por_evento(_Tipo, _Desfasado, true) -> falla;
+estado_por_evento(<<"alarma">>, _Desfasado, false) -> alerta;
+estado_por_evento(_Tipo, true, false) -> alerta;
+estado_por_evento(_Tipo, false, false) -> ok.
+
+reloj_en_falla(Offset) ->
+  Umbral = p69_config:get(reloj_falla_seg, 300) * 1000000,
+  abs(Offset) > Umbral.
 
 con_estado_calculado(Estado) ->
-  Timeout = p69_config:get(dispositivo_timeout_seg, 120) * 1000000,
+  Alerta = p69_config:get(dispositivo_alerta_seg, 60) * 1000000,
+  Falla = p69_config:get(dispositivo_falla_seg, 180) * 1000000,
   Ahora = erlang:system_time(microsecond),
-  EstadoFinal = case Ahora - maps:get(ultimo_latido, Estado) > Timeout of
-    true -> maps:put(estado, falla, Estado);
-    false -> Estado
-  end,
+  Silencio = Ahora - maps:get(ultimo_latido, Estado),
+  EstadoFinal = estado_por_silencio(Silencio, Alerta, Falla, Estado),
   EstadoFinal#{
     offset_segundos => maps:get(offset, EstadoFinal) / 1000000
   }.
+
+estado_por_silencio(Silencio, _Alerta, Falla, Estado) when Silencio > Falla ->
+  maps:put(estado, falla, Estado);
+estado_por_silencio(Silencio, Alerta, _Falla, Estado) when Silencio > Alerta ->
+  maps:put(estado, alerta, Estado);
+estado_por_silencio(_Silencio, _Alerta, _Falla, Estado) ->
+  Estado.

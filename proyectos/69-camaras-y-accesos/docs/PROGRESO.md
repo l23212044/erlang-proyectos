@@ -224,3 +224,14 @@ export PATH="$HOME/.local/opt/erlang-p69/bin:$HOME/.local/bin:$PATH"
 - Evidencia publicada en `origin/main` (commit `e4701ea`); los enlaces raw de
   `Evidencias/README.md`, `Evidencias/pruebas/api.md` y las capturas responden
   200. El Gist ya esta publicado.
+
+### Fase 9 - Umbrales de alerta configurables
+
+- Umbrales movidos a `config/sys.config` (y `sys.config.prod`) y leidos con
+  `p69_config:get/2`: offline alerta 60 s / falla 180 s; reloj alerta 30 s /
+  falla 300 s; evento tardio 300 s; cola 20000 con aviso 10000 y 429 en 18000;
+  mensajes pendientes por proceso 10000; retencion demo 600 s con `modo_demo`.
+- Se retiraron `dispositivo_timeout_seg` y `umbral_reloj_seg`; `p69_caos` y las
+  pruebas se actualizaron. `docs/SUPUESTOS.md` documenta cada uno como supuesto
+  propio no verificado.
+- `rebar3 compile` y `rebar3 eunit`: 51 pruebas, 0 fallos.

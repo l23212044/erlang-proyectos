@@ -33,7 +33,9 @@
   segundos,
   umbral_reloj,
   max_muestras,
+  umbral_aviso,
   umbral_429,
+  aviso_cola = false,
   segmentos = #{},
   seq = 0,
   last_hash = <<>>,
@@ -134,9 +136,10 @@ ultimos_por_dispositivo() ->
 init([]) ->
   Dir = p69_config:get(datos_dir, "data"),
   Segundos = p69_config:get(segmento_segundos, 86400),
-  UmbralReloj = p69_config:get(umbral_reloj_seg, 60) * 1000000,
+  UmbralReloj = p69_config:get(reloj_alerta_seg, 30) * 1000000,
   MaxMuestras = p69_config:get(reloj_max_muestras, 15),
-  Umbral429 = p69_config:get(ingesta_umbral_429, 80000),
+  UmbralAviso = p69_config:get(ingesta_umbral_aviso, 10000),
+  Umbral429 = p69_config:get(ingesta_umbral_429, 18000),
   case p69_wal:abrir(Dir) of
     {ok, Wal} ->
       TidSeq = ets:new(?TAB_SEQ, [ordered_set, protected, {read_concurrency, true}]),
@@ -148,6 +151,7 @@ init([]) ->
         segundos = Segundos,
         umbral_reloj = UmbralReloj,
         max_muestras = MaxMuestras,
+        umbral_aviso = UmbralAviso,
         umbral_429 = Umbral429,
         tid_seq = TidSeq,
         tid_hash = TidHash,
@@ -162,7 +166,8 @@ init([]) ->
       {stop, Motivo}
   end.
 
-handle_call({ingresar, EventoCrudo}, _From, Estado) ->
+handle_call({ingresar, EventoCrudo}, _From, Estado0) ->
+  Estado = revisar_cola(Estado0),
   case sobrecargada(Estado) of
     true ->
       metricas(inc, [ingesta_rechazada]),
@@ -177,7 +182,8 @@ handle_call({ingresar, EventoCrudo}, _From, Estado) ->
           {reply, {error, Motivo}, Estado}
       end
   end;
-handle_call({ingresar_lote, Eventos}, _From, Estado) ->
+handle_call({ingresar_lote, Eventos}, _From, Estado0) ->
+  Estado = revisar_cola(Estado0),
   case sobrecargada(Estado) of
     true ->
       metricas(inc, [ingesta_rechazada]),
@@ -224,10 +230,7 @@ handle_call(info_segmentos, _From, Estado) ->
   ],
   {reply, Info, Estado};
 handle_call(estado, _From, Estado) ->
-  Cola = case erlang:process_info(self(), message_queue_len) of
-    {message_queue_len, N} -> N;
-    undefined -> 0
-  end,
+  Cola = cola_actual(),
   {reply, #{
     seq => Estado#estado.seq,
     ultimo_hash => Estado#estado.last_hash,
@@ -235,7 +238,8 @@ handle_call(estado, _From, Estado) ->
     segmentos => map_size(Estado#estado.segmentos),
     pines => map_size(Estado#estado.pines),
     relojes => maps:size(Estado#estado.relojes),
-    cola_ingesta => Cola
+    cola_ingesta => Cola,
+    cola_aviso => Cola >= Estado#estado.umbral_aviso
   }, Estado};
 handle_call(ultimos_por_dispositivo, _From, Estado) ->
   PorDisp = ets:foldl(
@@ -325,8 +329,11 @@ preparar_uno(Ev0, Estado) ->
   }),
   Offset = p69_reloj:offset(Reloj1),
   Desfasado = p69_reloj:desfasado(Reloj1),
+  Tardio = TsRecepcion - TsEvento > p69_config:get(evento_tardio_seg, 300) * 1000000,
   Seq = Estado#estado.seq + 1,
-  Ev = p69_evento:preparar(Ev0, Seq, Estado#estado.last_hash, Offset, Desfasado),
+  Ev = (p69_evento:preparar(Ev0, Seq, Estado#estado.last_hash, Offset, Desfasado))#{
+    tardio => Tardio
+  },
   Estado2 = Estado#estado{
     seq = Seq,
     last_hash = maps:get(hash, Ev),
@@ -597,10 +604,28 @@ recolectar_filas(TidHash, TidSeq, Seq, MaxSeq, Acc) ->
 
 %% Auxiliares
 
-sobrecargada(#estado{umbral_429 = Umbral}) ->
+cola_actual() ->
   case erlang:process_info(self(), message_queue_len) of
-    {message_queue_len, N} -> N > Umbral;
-    undefined -> false
+    {message_queue_len, N} -> N;
+    undefined -> 0
+  end.
+
+sobrecargada(#estado{umbral_429 = Umbral}) ->
+  cola_actual() > Umbral.
+
+%% Aviso al alcanzar el umbral (50 % por defecto) sin inundar el log: solo se
+%% registra en la transicion de normal a alta, no en cada ingesta.
+revisar_cola(#estado{umbral_aviso = Aviso, aviso_cola = Activo} = Estado) ->
+  Cola = cola_actual(),
+  case {Cola >= Aviso, Activo} of
+    {true, false} ->
+      logger:warning("cola de ingesta alta", #{cola => Cola, umbral => Aviso}),
+      metricas(inc, [ingesta_aviso_cola]),
+      Estado#estado{aviso_cola = true};
+    {false, true} ->
+      Estado#estado{aviso_cola = false};
+    _ ->
+      Estado
   end.
 
 notificar(Ev) ->

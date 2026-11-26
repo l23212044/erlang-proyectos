@@ -31,19 +31,21 @@ handle_call({suscribir, Pid}, _From, Estado) ->
       {reply, ok, Estado};
     false ->
       Mon = erlang:monitor(process, Pid),
-      {reply, ok, Estado#{suscriptores => maps:put(Pid, Mon, Suscriptores)}}
+      Info = #{mon => Mon, aviso => false},
+      {reply, ok, Estado#{suscriptores => maps:put(Pid, Info, Suscriptores)}}
   end;
 handle_call(_Msg, _From, Estado) ->
   {reply, {error, no_soportado}, Estado}.
 
 handle_cast({desuscribir, Pid}, Estado) ->
   {noreply, quitar(Pid, Estado)};
-handle_cast({publicar, Evento}, Estado) ->
-  maps:foreach(
-    fun(Pid, _Mon) -> Pid ! {evento, Evento} end,
-    maps:get(suscriptores, Estado)
+handle_cast({publicar, Evento}, Estado0) ->
+  Max = p69_config:get(mensajes_pendientes_max, 10000),
+  Suscriptores = maps:map(
+    fun(Pid, Info) -> publicar_a(Pid, Info, Evento, Max) end,
+    maps:get(suscriptores, Estado0)
   ),
-  {noreply, Estado};
+  {noreply, Estado0#{suscriptores => Suscriptores}};
 handle_cast(_Msg, Estado) ->
   {noreply, Estado}.
 
@@ -52,10 +54,32 @@ handle_info({'DOWN', _Mon, process, Pid, _Motivo}, Estado) ->
 handle_info(_Info, Estado) ->
   {noreply, Estado}.
 
+%% Si un suscriptor acumula mas mensajes de los permitidos se le omite el
+%% evento y se avisa una sola vez hasta que se recupere.
+publicar_a(Pid, #{mon := _Mon, aviso := Avisado} = Info, Evento, Max) ->
+  case pendientes(Pid) of
+    N when N > Max ->
+      case Avisado of
+        true -> ok;
+        false -> logger:warning("suscriptor lento, evento omitido",
+          #{pid => Pid, pendientes => N, max => Max})
+      end,
+      Info#{aviso => true};
+    _N ->
+      Pid ! {evento, Evento},
+      Info#{aviso => false}
+  end.
+
+pendientes(Pid) ->
+  case erlang:process_info(Pid, message_queue_len) of
+    {message_queue_len, N} -> N;
+    undefined -> 0
+  end.
+
 quitar(Pid, Estado) ->
   Suscriptores = maps:get(suscriptores, Estado),
   case maps:take(Pid, Suscriptores) of
-    {Mon, Resto} ->
+    {#{mon := Mon}, Resto} ->
       erlang:demonitor(Mon, [flush]),
       Estado#{suscriptores => Resto};
     error ->

@@ -38,7 +38,8 @@ retener_ahora() ->
     0 ->
       {ok, []};
     Dias ->
-      Corte = erlang:system_time(microsecond) - Dias * 86400 * 1000000,
+      Segundos = segundos_retencion(Dias),
+      Corte = erlang:system_time(microsecond) - Segundos * 1000000,
       case p69_bitacora:retener(Corte) of
         {ok, Resultados} ->
           logger:info("retencion ejecutada", #{corte => Corte, segmentos => Resultados}),
@@ -46,4 +47,12 @@ retener_ahora() ->
         {error, Motivo} ->
           {error, Motivo}
       end
+  end.
+
+%% En modo demo la retencion se acorta a minutos para poder observar el
+%% borrado en la demostracion, sin tocar la ventana de ingesta.
+segundos_retencion(Dias) ->
+  case p69_config:get(modo_demo, false) of
+    true -> p69_config:get(retencion_demo_seg, 600);
+    false -> Dias * 86400
   end.
